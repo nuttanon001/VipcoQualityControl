@@ -1,0 +1,28 @@
+<div class="master-dialog-vh">
+  <H5 style="color:cadetblue">Selected Prject </H5>
+  <div class="child-container">
+    <div class="center-content">
+      <div class="row-content">
+        <!--Row Left Content-->
+        <div class="row-left-content">
+          <dialog-project-table (returnSelected)="onSelectedValue($event)"></dialog-project-table>
+        </div>
+        <!--Row Right Content-->
+        <div class="row-right-content">
+          <dialog-project-detail-table [fastSelected]="true" [dataRows]="projectDetails"
+                                       (returnSelected)="onSelectedOptionValue($event)"></dialog-project-detail-table>
+        </div>
+      </div>
+    </div>
+    <div class="right-content">
+      <button type="button" mat-icon-button color="primary" (click)="onSelectedClick()"
+              [disabled]="!getValue" matTooltip="Selected" matTooltipPosition="left">
+        <i class="fa fa-2x fa-hand-pointer-o" aria-hidden="true"></i>
+      </button>
+      <button type="button" mat-icon-button color="warn" (click)="onCancelClick()"
+              matTooltip="Cancel" matTooltipPosition="left">
+        <i class="fa fa-2x fa-close" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "VipcoQualityControl"
+  },
+  "apps": [
+    {
+      "assets": [
+        "assets"
+      ],
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      },
+      "environmentSource": "environments/environment.ts",
+      "index": "index.html",
+      "main": "main.ts",
+      "outDir": "dist",
+      "polyfills": "polyfills.ts",
+      "prefix": "app",
+      "root": "src",
+      "scripts": [],
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "../node_modules/bootstrap/scss"
+        ]
+      },
+      "styles": [
+        "sass/styles.scss",
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "../node_modules/font-awesome/css/font-awesome.css",
+        "../node_modules/primeng/resources/primeng.css",
+        "../node_modules/primeng/resources/themes/omega/theme.css",
+        "../node_modules/material-design-icons/iconfont/material-icons.css"
+      ],
+      "test": "test.ts",
+      "testTsconfig": "tsconfig.spec.json",
+      "tsconfig": "tsconfig.app.json"
+    }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "project": "src/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "src/tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "e2e/tsconfig.e2e.json",
+      "exclude": "**/node_modules/**"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "scss",
+    "component": {
+    },
+    "build": {
+      "progress": true
+    }
+  }
+}
