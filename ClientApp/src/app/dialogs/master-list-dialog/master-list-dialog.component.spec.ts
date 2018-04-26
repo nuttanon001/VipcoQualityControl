@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MasterListEditComponent } from './master-list-edit.component';
+import { MasterListDialogComponent } from './master-list-dialog.component';
 
-describe('MasterListEditComponent', () => {
-  let component: MasterListEditComponent;
-  let fixture: ComponentFixture<MasterListEditComponent>;
+describe('MasterListDialogComponent', () => {
+  let component: MasterListDialogComponent;
+  let fixture: ComponentFixture<MasterListDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MasterListEditComponent ]
+      declarations: [ MasterListDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MasterListEditComponent);
+    fixture = TestBed.createComponent(MasterListDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

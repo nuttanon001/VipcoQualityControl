@@ -1,8 +1,8 @@
 <div *ngIf="editValue; else elseBlock">
-  <mat-horizontal-stepper [linear]="true" #stepper="matHorizontalStepper">
-    <mat-step [stepControl]="editValueForm">
-      <ng-template matStepLabel>
-        <strong><b>Requist quality control</b></strong>
+  <mat-tab-group>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <b>Require quality control infomation edit</b>
       </ng-template>
       <form [formGroup]="editValueForm">
         <div class="form-container-column">
@@ -179,25 +179,8 @@
           </div>
         </div>
       </form>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>
-        <strong><b>Requist Item && Mark No</b></strong>
-      </ng-template>
-      <div class="form-container-column">
-        <div class="my-0">
-          <button mat-mini-fab color="primary" (click)="actionRequisition()"
-                  matTooltip="Add Mark No">
-            <mat-icon>add_circle_outline</mat-icon>
-          </button>
-        </div>
-        <div>
-          <app-require-qc-masterlist-table [dataRows]="editValue.MasterLists" (returnSelected)="actionMarkNo($event)">
-          </app-require-qc-masterlist-table>
-        </div>
-      </div>
-    </mat-step>
-  </mat-horizontal-stepper>
+    </mat-tab>
+  </mat-tab-group>
 </div>
 
 <ng-template #elseBlock>

@@ -86,7 +86,13 @@ namespace VipcoQualityControl.Services
         /// <returns>An ICollection of every object in the database</returns>
         public ICollection<TEntity> GetAll()
         {
-            return this.Entities.ToList();
+            var ListData = new List<TEntity>();
+            this.Entities.ToList().ForEach(item =>
+            {
+                Context.Entry(item).State = EntityState.Detached;
+                ListData.Add(item);
+            });
+            return ListData;
         }
 
         public IQueryable<TEntity> GetAllAsQueryable()
@@ -100,7 +106,13 @@ namespace VipcoQualityControl.Services
         /// <returns>An ICollection of every object in the database</returns>
         public async Task<ICollection<TEntity>> GetAllAsync()
         {
-            return await this.Entities.ToListAsync();
+            var ListData = new List<TEntity>();
+            (await this.Entities.ToListAsync()).ForEach(item =>
+            {
+                Context.Entry(item).State = EntityState.Detached;
+                ListData.Add(item);
+            });
+            return ListData;
         }
 
         public async Task<ICollection<TEntity>> GetAllWithRelateAsync(System.Linq.Expressions.Expression<Func<TEntity, bool>> match = null)
@@ -182,7 +194,14 @@ namespace VipcoQualityControl.Services
         /// <returns>An ICollection of object which match the expression filter</returns>
         public ICollection<TEntity> FindAll(Expression<Func<TEntity, bool>> match)
         {
-            return this.Context.Set<TEntity>().Where(match).ToList();
+            var ListData = new List<TEntity>();
+            this.Context.Set<TEntity>().Where(match).ToList().ForEach(item =>
+            {
+                Context.Entry(item).State = EntityState.Detached;
+                ListData.Add(item);
+            });
+
+            return ListData;
         }
         /// <summary>
         /// Returns a collection of objects which match the provided expression
@@ -192,7 +211,13 @@ namespace VipcoQualityControl.Services
         /// <returns>An ICollection of object which match the expression filter</returns>
         public async Task<ICollection<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> match)
         {
-            return await this.Context.Set<TEntity>().Where(match).ToListAsync();
+            var ListData = new List<TEntity>();
+            (await this.Context.Set<TEntity>().Where(match).ToListAsync()).ForEach(item =>
+            {
+                Context.Entry(item).State = EntityState.Detached;
+                ListData.Add(item);
+            });
+            return ListData;
         }
 
         /// <summary>

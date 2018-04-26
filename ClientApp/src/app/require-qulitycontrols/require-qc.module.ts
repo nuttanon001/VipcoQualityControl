@@ -10,6 +10,7 @@ import { RequireQcTableComponent } from './require-qc-table/require-qc-table.com
 import { RequireQcMasterComponent } from './require-qc-master/require-qc-master.component';
 import { RequireQcViewComponent } from './require-qc-view/require-qc-view.component';
 import { RequireQcEditComponent } from './require-qc-edit/require-qc-edit.component';
+import { RequireQcMasterlistTableComponent } from './require-qc-masterlist-table/require-qc-masterlist-table.component';
 //Services
 import { BranchService } from '../branchs/shared/branch.service';
 import { WorkActivityService } from '../work-activities/shared/work-activity.service';
@@ -31,7 +32,8 @@ import { RequireQualityControlService, RequireQualityControlCommunicateService }
     RequireQcTableComponent,
     RequireQcMasterComponent,
     RequireQcViewComponent,
-    RequireQcEditComponent
+    RequireQcEditComponent,
+    RequireQcMasterlistTableComponent
   ],
   providers: [
     WorkActivityService,

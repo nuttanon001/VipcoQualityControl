@@ -21,6 +21,7 @@ import {
 
 import { SharedModule } from "../shared/shared.module";
 import { ProjectDetailTableComponent } from './project-dialog/project-detail-table/project-detail-table.component';
+import { MasterListDialogComponent } from './master-list-dialog/master-list-dialog.component';
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import { ProjectDetailTableComponent } from './project-dialog/project-detail-tab
     GroupmisDialogComponent,
     GroupmisTableComponent,
     ProjectDetailTableComponent,
+    MasterListDialogComponent,
   ],
   providers: [
     DialogsService,

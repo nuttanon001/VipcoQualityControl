@@ -28,9 +28,7 @@ export class GroupmisDialogComponent extends BaseDialogComponent<EmployeeGroupMi
       service,
       dialogRef
     );
-
   }
-
   // on init
   onInit(): void {
     this.fastSelectd = true;

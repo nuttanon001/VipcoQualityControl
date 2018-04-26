@@ -159,6 +159,7 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
       WorkActivityString: [this.editValue.WorkActivityString],
       BranchString: [this.editValue.BranchString],
       RequireStatusString: [this.editValue.RequireStatusString],
+      MasterLists: [this.editValue.MasterLists],
       // Attach File
       AttachFile: [this.editValue.AttachFile],
       RemoveAttach: [this.editValue.RemoveAttach],
@@ -276,7 +277,7 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
               if (project.ProjectCodeSub) {
                 this.editValueForm.patchValue({
                   ProjectCodeDetailId: project.ProjectCodeSub.ProjectCodeDetailId,
-                  ProjectCodeDetailString: `${project.ProjectCode}/${project.ProjectCodeSub.Description}`,
+                  ProjectCodeDetailString: `${project.ProjectCode}/${project.ProjectCodeSub.ProjectCodeDetailCode}`,
                 });
               }
             }

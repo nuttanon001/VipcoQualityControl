@@ -10,6 +10,13 @@ namespace VipcoQualityControl.Helper
     {
         public MappingProfile()
         {
+            #region MasterProjectList
+
+            CreateMap<MasterProjectList, MasterProjectListViewModel>()
+                .ForMember(x => x.RequireHasMasterProjects, o => o.Ignore());
+
+            #endregion
+
             #region RequireQuality
             CreateMap<RequireQualityControl, RequireQualityControlViewModel>()
                 .ForMember(x => x.BranchString,

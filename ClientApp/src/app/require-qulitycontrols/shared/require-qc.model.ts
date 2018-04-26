@@ -1,5 +1,6 @@
 import { BaseModel } from "../../shared/base-model.model";
 import { RequireStatusQc } from "./require-status-qc.enum";
+import { MasterList } from "../../master-lists/shared/master-list.model";
 
 export interface RequireQc extends BaseModel {
   RequireQualityControlId: number;
@@ -33,7 +34,8 @@ export interface RequireQc extends BaseModel {
   InspectionPointString? :string;
   WorkActivityString? :string;
   BranchString? :string;
-  RequireStatusString? :string;
+  RequireStatusString?: string;
+  MasterLists?: Array<MasterList>;
   // Attach Model
   AttachFile?: FileList;
   RemoveAttach?: Array<number>;
