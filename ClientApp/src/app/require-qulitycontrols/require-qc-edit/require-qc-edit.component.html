@@ -2,7 +2,7 @@
   <mat-horizontal-stepper [linear]="true" #stepper="matHorizontalStepper">
     <mat-step [stepControl]="editValueForm">
       <ng-template matStepLabel>
-        <strong><b>Requist quality control</b></strong>
+        <strong><b>Request quality control information</b></strong>
       </ng-template>
       <form [formGroup]="editValueForm">
         <div class="form-container-column">
@@ -182,11 +182,11 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>
-        <strong><b>Requist Item && Mark No</b></strong>
+        <strong><b>Request Item && Mark No</b></strong>
       </ng-template>
       <div class="form-container-column">
         <div class="my-0">
-          <button mat-mini-fab color="primary" (click)="actionRequisition()"
+          <button mat-mini-fab color="primary" (click)="actionMarkNo()"
                   matTooltip="Add Mark No">
             <mat-icon>add_circle_outline</mat-icon>
           </button>

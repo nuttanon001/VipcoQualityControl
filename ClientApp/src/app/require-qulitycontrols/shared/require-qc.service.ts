@@ -26,6 +26,26 @@ export class RequireQualityControlService extends BaseRestService<RequireQc> {
       "RequireQualityControlId",
       httpErrorHandler
     )
+  }// 
+
+  /** add Model @param nObject */
+  addModel(nObject: RequireQc): Observable<RequireQc> {
+    return this.http.post<RequireQc>(this.baseUrl + "CreateV2/", JSON.stringify(nObject),
+      {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json",
+        })
+      }).pipe(catchError(this.handleError(this.serviceName + "/post model", nObject)));
+  }
+
+  /** update with key number */
+  updateModelWithKey(uObject: RequireQc): Observable<RequireQc> {
+    return this.http.put<RequireQc>(this.baseUrl + "UpdateV2/", JSON.stringify(uObject), {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+      }),
+      params: new HttpParams().set("key", uObject[this.keyName].toString())
+    }).pipe(catchError(this.handleError(this.serviceName + "/put update model", uObject)));
   }
 
   // ===================== Action Require Quailty Control ===========================\\

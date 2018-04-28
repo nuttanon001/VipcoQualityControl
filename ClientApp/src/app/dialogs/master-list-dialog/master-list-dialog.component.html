@@ -1,3 +1,58 @@
-<p>
-  master-list-dialog works!
-</p>
+<div class="m-3" style="width:450px;height:auto;">
+  <H5 style="color:cadetblue">Create MarkNo</H5>
+  <div *ngIf="editValueForm" class="form-container-column">
+    <form [formGroup]="editValueForm">
+      <div class="row-form">
+        <div class="left-content">
+          <mat-form-field hintLabel="*Required and max 150 characters">
+            <input matInput placeholder="Enter mark-no "
+                   required maxlength="150"
+                   id="MarkNo" formControlName="MarkNo">
+            <mat-hint [align]="end">{{editValueForm.controls.MarkNo.value?.length || 0}}/150</mat-hint>
+            <mat-error *ngIf="editValueForm.controls.MarkNo.hasError('required')">
+              MarkNo is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row-form">
+        <div class="left-content">
+          <mat-form-field hintLabel="Max 50 characters">
+            <input matInput placeholder="Enter master list name"
+                   maxlength="50"
+                   id="Name" formControlName="Name">
+            <mat-hint [align]="end">{{editValueForm.controls.Name.value?.length || 0}}/50</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row-form">
+        <div class="left-content">
+          <mat-form-field hintLabel="*Required and min quailty 1">
+            <input matInput placeholder="Enter quantity"
+                   min="1" required
+                   id="Quantity" formControlName="Quantity">
+            <mat-error *ngIf="editValueForm.controls.Quantity.hasError('required')">
+              Quantity is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+    <hr class="w-75 my-3"/>
+    <div class="row-form">
+      <div class="left-content">
+        <button mat-mini-fab color="primary" (click)="onSubmitMasterList()"
+                matTooltip="Add new MarkNo" [disabled]="!editValueForm.valid">
+          <mat-icon aria-hidden="true">add</mat-icon>
+        </button>
+        &nbsp;&nbsp;
+        <button mat-mini-fab color="warn" (click)="onCancelClick()"
+                matTooltip="Cancel">
+          <mat-icon aria-hidden="true">close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

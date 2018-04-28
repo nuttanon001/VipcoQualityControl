@@ -5,22 +5,25 @@ import { FormBuilder, FormControl, Validators, AbstractControl } from "@angular/
 import { RequireQc } from "../shared/require-qc.model";
 import { Branch } from "../../branchs/shared/branch.model";
 import { AttachFile } from "../../shared/attach-file.model";
+import { RequireStatusQc } from "../shared/require-status-qc.enum";
+import { MasterList } from "../../master-lists/shared/master-list.model";
+import { WorkActivity } from "../../work-activities/shared/work-activity.model";
+import { WorkGroupQc } from "../../workgroup-qulitycontrols/shared/workgroup-qc.model";
+import { InspectionPoint } from "../../inspection-points/shared/inspection-point.model";
 // components
 import { BaseEditComponent } from "../../shared/base-edit-component";
 // services
 import { AuthService } from "../../core/auth/auth.service";
-import { DialogsService } from "../../dialogs/shared/dialogs.service";
 import { ShareService } from "../../shared/share.service";
 import { BranchService } from "../../branchs/shared/branch.service";
-import { EmployeeGroupMisService } from "../../employees/shared/employee-group-mis.service";
-import { RequireQualityControlCommunicateService, RequireQualityControlService } from "../shared/require-qc.service";
-import { RequireStatusQc } from "../shared/require-status-qc.enum";
+import { DialogsService } from "../../dialogs/shared/dialogs.service";
 import { WorkActivityService } from "../../work-activities/shared/work-activity.service";
+import { EmployeeGroupMisService } from "../../employees/shared/employee-group-mis.service";
 import { WorkGroupQcService } from "../../workgroup-qulitycontrols/shared/workgroup-qc.service";
 import { InspectionPointService } from "../../inspection-points/shared/inspection-point.service";
-import { InspectionPoint } from "../../inspection-points/shared/inspection-point.model";
-import { WorkActivity } from "../../work-activities/shared/work-activity.model";
-import { WorkGroupQc } from "../../workgroup-qulitycontrols/shared/workgroup-qc.model";
+import { RequireQualityControlCommunicateService, RequireQualityControlService } from "../shared/require-qc.service";
+import { ArgumentOutOfRangeError } from "rxjs";
+import { MasterListService } from "../../master-lists/shared/master-list.service";
 
 @Component({
   selector: 'app-require-qc-edit',
@@ -32,6 +35,7 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
     service: RequireQualityControlService,
     serviceCom: RequireQualityControlCommunicateService,
     private serviceBranch: BranchService,
+    private serviceMarkNo: MasterListService,
     private serviceGroupMis: EmployeeGroupMisService,
     private serviceWorkActivity: WorkActivityService,
     private serviceWorkGroupQc: WorkGroupQcService,
@@ -48,6 +52,7 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
   }
 
   // Parameter
+  indexItem: number;
   branchs: Array<Branch>;
   inspections: Array<InspectionPoint>;
   workActivities: Array<WorkActivity>;
@@ -59,6 +64,26 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
       this.service.getOneKeyNumber(value)
         .subscribe(dbData => {
           this.editValue = dbData;
+          //Employee
+          this.serviceMarkNo.actionRequireQualityControlHasMarkNo(dbData.RequireQualityControlId)
+            .subscribe(RequireQCHasMasterList => {
+              this.editValue.MasterLists = new Array;
+              if (RequireQCHasMasterList) {
+                RequireQCHasMasterList.forEach((item, index) => {
+                  this.editValue.MasterLists.push({
+                    CreateDate: item.CreateDate,
+                    Creator: item.Creator,
+                    MarkNo: item.MarkNo,
+                    Name: item.Name,
+                    Quantity: item.Quantity,
+                    MasterProjectListId: item.MasterProjectListId
+                  });
+                });
+                //Patch value to Form
+                this.editValueForm.patchValue({
+                  MasterLists: this.editValue.MasterLists
+                });
+              }});
         }, error => console.error(error), () => this.buildForm());
     } else {
       this.editValue = {
@@ -66,7 +91,6 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
         RequireDate: new Date,
         RequireStatus: RequireStatusQc.Waiting,
       };
-
       if (this.serviceAuth.getAuth) {
         this.editValue.RequireEmp = this.serviceAuth.getAuth.EmpCode;
         this.editValue.RequireEmpString = this.serviceAuth.getAuth.NameThai;
@@ -74,7 +98,6 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
         // Get GroupMIS
         this.getEmployeeGroupMisByEmpCode(this.editValue.RequireEmp);
       }
-
       this.buildForm();
     }
   }
@@ -271,7 +294,7 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
             }
           });
       } else if (type === "Project") {
-        this.serviceDialogs.dialogSelectProject(this.viewContainerRef,2)
+        this.serviceDialogs.dialogSelectProject(this.viewContainerRef, 2)
           .subscribe(project => {
             if (project) {
               if (project.ProjectCodeSub) {
@@ -292,8 +315,57 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
               });
             }
           });
+      } 
+    }
+  }
+
+  // action markno
+  actionMarkNo(markNo?: { data: MasterList, option: number }): void {
+    if (!this.editValue.MasterLists) {
+      this.editValue.MasterLists = new Array;
+    }
+
+    let dataMarkNo: MasterList = {
+      MasterProjectListId : 0
+    };
+
+    if (!markNo) {
+      this.indexItem = -1;
+    } else {
+      this.indexItem = this.editValue.MasterLists.indexOf(markNo.data);
+
+      if (markNo.option === 1) {
+        dataMarkNo = Object.assign({}, markNo.data);
+      } else {
+        this.editValue.MasterLists.splice(this.indexItem, 1);
+        this.editValue.MasterLists = this.editValue.MasterLists.slice();
+        // Update to form
+        this.editValueForm.patchValue({
+          MasterLists: this.editValue.MasterLists
+        });
+        return;
       }
     }
+
+    this.serviceDialogs.dialogCreateMarkNo(this.viewContainerRef, dataMarkNo)
+      .subscribe(dialogMarkNo => {
+        if (dialogMarkNo) {
+          if (this.indexItem > -1) {
+            // remove item
+            this.editValue.MasterLists.splice(this.indexItem, 1);
+          }
+          // cloning an object
+          this.editValue.MasterLists.push(Object.assign({}, dialogMarkNo));
+          this.editValue.MasterLists = this.editValue.MasterLists.slice();
+          // Update to form
+          this.editValueForm.patchValue({
+            MasterLists: this.editValue.MasterLists
+          });
+          this.onValueChanged();
+        } else {
+          this.onValueChanged();
+        }
+      });
   }
 
   ////////////

@@ -9,6 +9,7 @@ import "hammerjs";
 import { DialogsService } from "./shared/dialogs.service";
 // modules
 import { CustomMaterialModule } from "../shared/customer-material/customer-material.module";
+import { SharedModule } from "../shared/shared.module";
 // components
 import {
   ConfirmDialog, ContextDialog,
@@ -18,8 +19,6 @@ import {
   EmployeeTableComponent,
   GroupmisTableComponent, ProjectTableComponent,
 } from "./dialog.index";
-
-import { SharedModule } from "../shared/shared.module";
 import { ProjectDetailTableComponent } from './project-dialog/project-detail-table/project-detail-table.component';
 import { MasterListDialogComponent } from './master-list-dialog/master-list-dialog.component';
 
@@ -56,11 +55,12 @@ import { MasterListDialogComponent } from './master-list-dialog/master-list-dial
     ErrorDialog,
     ConfirmDialog,
     ContextDialog,
+    GroupmisTableComponent,
     ProjectDialogComponent,
-    ProjectDetailTableComponent,
     EmployeeDialogComponent,
     GroupmisDialogComponent,
-    GroupmisTableComponent,
+    MasterListDialogComponent,
+    ProjectDetailTableComponent,
   ],
 })
 export class DialogsModule { }

@@ -20,9 +20,14 @@ namespace VipcoQualityControl.Controllers
     [Route("api/[controller]")]
     public class MasterProjectListController : GenericController<MasterProjectList>
     {
+        private readonly IRepositoryQualityControl<RequireHasMasterProject> repositoryRequireHasMl;
+
         public MasterProjectListController(IRepositoryQualityControl<MasterProjectList> repo,
+            IRepositoryQualityControl<RequireHasMasterProject> repoRequireHasMl,
             IMapper mapper): base(repo,mapper)
-        { }
+        {
+            this.repositoryRequireHasMl = repoRequireHasMl;
+        }
 
         // GET: api/MasterProjectList/Autocomplate
         [HttpGet("Autocomplate")]
@@ -115,6 +120,29 @@ namespace VipcoQualityControl.Controllers
             {
                 return BadRequest(new { Error = $"{ex.ToString()}" });
             }
+        }
+
+        // GET:api/MasterProjectList/GetMasterProjectListByRequireQualityControl/5
+        [HttpGet("GetMasterProjectListByRequireQualityControl")]
+        public async Task<IActionResult> GetMasterProjectListByRequireQualityControl(int key)
+        {
+            if (key > 0)
+            {
+                var HasData = await this.repositoryRequireHasMl.GetAllAsQueryable()
+                                        .Where(x => x.RequireQualityControlId == key)
+                                        .ToListAsync();
+                if (HasData != null)
+                {
+                    var ListData = new List<MasterProjectListViewModel>();
+                    foreach (var item in HasData)
+                    {
+                        if (item.MasterProjectList != null)
+                            ListData.Add(this.mapper.Map<MasterProjectList, MasterProjectListViewModel>(item.MasterProjectList));
+                    }
+                    return new JsonResult(ListData, this.DefaultJsonSettings);
+                }
+            }
+            return BadRequest();
         }
     }
 }

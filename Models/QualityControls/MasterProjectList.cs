@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VipcoQualityControl.Models.QualityControls
 {
-    public class MasterProjectList
+    public class MasterProjectList:BaseModel
     {
         [Key]
         public int MasterProjectListId { get; set; }

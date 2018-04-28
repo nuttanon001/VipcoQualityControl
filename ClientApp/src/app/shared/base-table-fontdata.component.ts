@@ -60,8 +60,8 @@ export class BaseTableFontData<Model> implements OnInit, OnChanges, AfterViewIni
   }
 
   // OnAction Click
-  onActionClick(data: any, mode: number = 0) {
-    this.returnSelected.emit({ data: data, option: mode });
+  onActionClick(data: Model, option: number = 0) {
+    this.returnSelected.emit({ data: data, option: option });
   }
 }
 

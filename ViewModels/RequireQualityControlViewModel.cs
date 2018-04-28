@@ -16,5 +16,6 @@ namespace VipcoQualityControl.ViewModels
         public string WorkActivityString { get; set; }
         public string BranchString { get; set; }
         public string RequireStatusString { get; set; }
+        public ICollection<MasterProjectList> MasterLists { get; set; }
     }
 }

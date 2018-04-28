@@ -35,6 +35,13 @@ export class MasterListService extends BaseRestService<MasterList> {
     return this.http.get<Array<MasterList>>(this.baseUrl + "Autocomplate/", options)
       .pipe(catchError(this.handleError(this.serviceName + "/Master list autocomplate", Array<MasterList>())));
   }
+  // ===================== MasterProjectList by RequireQualityControl ===========================\\
+  // action master project list
+  actionRequireQualityControlHasMarkNo(RequireQualityControlId: number): Observable<Array<MasterList>> {
+    const options = { params: new HttpParams().set("key", RequireQualityControlId.toString()) };
+    return this.http.get<Array<MasterList>>(this.baseUrl + "GetMasterProjectListByRequireQualityControl/", options)
+      .pipe(catchError(this.handleError(this.serviceName + "/get master project list by require quality control model", Array<MasterList>())));
+  }
 }
 
 @Injectable()

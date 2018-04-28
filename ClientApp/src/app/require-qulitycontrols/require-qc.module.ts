@@ -13,6 +13,7 @@ import { RequireQcEditComponent } from './require-qc-edit/require-qc-edit.compon
 import { RequireQcMasterlistTableComponent } from './require-qc-masterlist-table/require-qc-masterlist-table.component';
 //Services
 import { BranchService } from '../branchs/shared/branch.service';
+import { MasterListService } from '../master-lists/shared/master-list.service';
 import { WorkActivityService } from '../work-activities/shared/work-activity.service';
 import { EmployeeGroupMisService } from '../employees/shared/employee-group-mis.service';
 import { WorkGroupQcService } from '../workgroup-qulitycontrols/shared/workgroup-qc.service';
@@ -36,11 +37,12 @@ import { RequireQualityControlService, RequireQualityControlCommunicateService }
     RequireQcMasterlistTableComponent
   ],
   providers: [
-    WorkActivityService,
+    BranchService,
+    MasterListService,
     WorkGroupQcService,
+    WorkActivityService,
     InspectionPointService,
     EmployeeGroupMisService,
-    BranchService,
     RequireQualityControlService,
     RequireQualityControlCommunicateService
   ]

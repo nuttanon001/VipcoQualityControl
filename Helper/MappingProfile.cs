@@ -32,6 +32,7 @@ namespace VipcoQualityControl.Helper
                 .ForMember(x => x.WorkGroupQualityControlString,
                             o => o.MapFrom(s => s.WorkGroupQualityControl == null ? "-" : s.WorkGroupQualityControl.Name))
                 .ForMember(x => x.WorkGroupQualityControl, o => o.Ignore());
+            CreateMap<RequireQualityControlViewModel, RequireQualityControl>();
             #endregion
 
             #region User

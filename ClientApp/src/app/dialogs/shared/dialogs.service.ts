@@ -1,5 +1,5 @@
 // Angular Core
-import { MatDialogRef, MatDialog, MatDialogConfig } from "@angular/material";
+import { MatDialogRef, MatDialog, MatDialogConfig, transformMenu } from "@angular/material";
 import { Injectable, ViewContainerRef } from "@angular/core";
 // rxjs
 import { Observable } from "rxjs/Rx";
@@ -16,6 +16,10 @@ import { Employee } from "../../employees/shared/employee.model";
 import { EmployeeGroupMis } from "../../employees/shared/employee-group-mis.model";
 import { ProjectMaster } from "../../projects/shared/project-master.model";
 import { observableToBeFn } from "rxjs/testing/TestScheduler";
+import { MasterList } from "../../master-lists/shared/master-list.model";
+import { MasterListDialogComponent } from "../master-list-dialog/master-list-dialog.component";
+import { concat } from "rxjs/operator/concat";
+import { retry } from "rxjs/operators";
 
 @Injectable()
 export class DialogsService {
@@ -145,6 +149,24 @@ export class DialogsService {
 
     // open dialog
     dialogRef = this.dialog.open(EmployeeDialogComponent, config);
+    return dialogRef.afterClosed();
+  }
+  /**
+   * Dialog create mark no
+   * @param viewContainerRef
+   * @param masterList
+   */
+  public dialogCreateMarkNo(viewContainerRef: ViewContainerRef, masterList: MasterList): Observable<MasterList> {
+    let dialogRef: MatDialogRef<MasterListDialogComponent>;
+    let config: MatDialogConfig = new MatDialogConfig();
+
+    //config
+    config.viewContainerRef = viewContainerRef;
+    config.data = masterList;
+    config.hasBackdrop = true;
+
+    // open dialog
+    dialogRef = this.dialog.open(MasterListDialogComponent, config);
     return dialogRef.afterClosed();
   }
 }

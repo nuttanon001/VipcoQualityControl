@@ -10,9 +10,10 @@ using VipcoQualityControl.Models.QualityControls;
 namespace VipcoQualityControl.Migrations
 {
     [DbContext(typeof(QualityControlContext))]
-    partial class QualityControlContextModelSnapshot : ModelSnapshot
+    [Migration("20180427085912_FixBugBaseModel")]
+    partial class FixBugBaseModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

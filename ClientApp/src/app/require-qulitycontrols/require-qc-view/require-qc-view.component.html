@@ -129,6 +129,16 @@
         </div>
       </div>
     </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <b>Request item && Request mark-no</b>
+      </ng-template>
+      <div class="view-container" *ngIf="displayValue.MasterLists">
+        <app-require-qc-masterlist-table [dataRows]="displayValue.MasterLists"
+                                         [readOnly]="true">
+        </app-require-qc-masterlist-table>
+      </div>
+    </mat-tab>
   </mat-tab-group>
 </div>
 
