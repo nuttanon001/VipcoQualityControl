@@ -25,6 +25,8 @@ namespace VipcoQualityControl.Models.QualityControls
 
             modelBuilder.Entity<InspectionPoint>().ToTable("InspectionPoint")
                 .HasIndex(i => i.Name).IsUnique();
+            modelBuilder.Entity<LocationQualityControl>().ToTable("LocationQualityControl")
+                .HasIndex(l => l.Name).IsUnique();
             modelBuilder.Entity<MasterProjectList>().ToTable("MasterProjectList");
             modelBuilder.Entity<Permission>().ToTable("Permission");
             modelBuilder.Entity<RequireHasAttach>().ToTable("RequireHasAttach");
@@ -40,6 +42,7 @@ namespace VipcoQualityControl.Models.QualityControls
         // Dbset
         public DbSet<Branch> Branchs { get; set; }
         public DbSet<InspectionPoint> InspectionPoints { get; set; }
+        public DbSet<LocationQualityControl> LocationQualityControls { get; set; }
         public DbSet<MasterProjectList> MasterProjectLists { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<RequireHasAttach> RequireHasAttachs { get; set; }

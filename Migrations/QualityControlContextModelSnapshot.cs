@@ -81,6 +81,38 @@ namespace VipcoQualityControl.Migrations
                     b.ToTable("InspectionPoint");
                 });
 
+            modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.LocationQualityControl", b =>
+                {
+                    b.Property<int>("LocationQualityControlId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("CreateDate");
+
+                    b.Property<string>("Creator")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("GroupMis");
+
+                    b.Property<DateTime?>("ModifyDate");
+
+                    b.Property<string>("Modifyer")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50);
+
+                    b.HasKey("LocationQualityControlId");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
+
+                    b.ToTable("LocationQualityControl");
+                });
+
             modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.MasterProjectList", b =>
                 {
                     b.Property<int>("MasterProjectListId")
@@ -231,6 +263,8 @@ namespace VipcoQualityControl.Migrations
 
                     b.Property<int?>("InspectionPointId");
 
+                    b.Property<int?>("LocationQualityControlId");
+
                     b.Property<string>("MailReply")
                         .HasMaxLength(200);
 
@@ -238,6 +272,8 @@ namespace VipcoQualityControl.Migrations
 
                     b.Property<string>("Modifyer")
                         .HasMaxLength(50);
+
+                    b.Property<int?>("ParentRequireQcId");
 
                     b.Property<int?>("ProjectCodeDetailId");
 
@@ -264,6 +300,10 @@ namespace VipcoQualityControl.Migrations
                     b.HasIndex("BranchId");
 
                     b.HasIndex("InspectionPointId");
+
+                    b.HasIndex("LocationQualityControlId");
+
+                    b.HasIndex("ParentRequireQcId");
 
                     b.HasIndex("WorkActivityId");
 
@@ -403,6 +443,14 @@ namespace VipcoQualityControl.Migrations
                     b.HasOne("VipcoQualityControl.Models.QualityControls.InspectionPoint", "InspectionPoint")
                         .WithMany("RequireQualityControls")
                         .HasForeignKey("InspectionPointId");
+
+                    b.HasOne("VipcoQualityControl.Models.QualityControls.LocationQualityControl", "LocationQualityControl")
+                        .WithMany("RequireQualityControls")
+                        .HasForeignKey("LocationQualityControlId");
+
+                    b.HasOne("VipcoQualityControl.Models.QualityControls.RequireQualityControl", "ParentRequireQc")
+                        .WithMany()
+                        .HasForeignKey("ParentRequireQcId");
 
                     b.HasOne("VipcoQualityControl.Models.QualityControls.WorkActivity", "WorkActivity")
                         .WithMany("RequireQualityControls")

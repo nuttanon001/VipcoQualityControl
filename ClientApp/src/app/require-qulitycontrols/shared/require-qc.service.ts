@@ -4,6 +4,8 @@ import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { HttpErrorHandler } from "../../shared/http-error-handler.service";
 // models
 import { RequireQc } from "./require-qc.model";
+import { RequireQcChange } from "./require-qc-change";
+import { OptionRequireQc } from "./option-require-qc.model";
 import { AttachFile } from "../../shared/attach-file.model";
 // Base-Services
 import { BaseRestService } from "../../shared/base-rest.service";
@@ -11,7 +13,6 @@ import { BaseCommunicateService } from "../../shared/base-communicate.service";
 // rxjs
 import { Observable } from "rxjs/Observable";
 import { catchError } from "rxjs/operators";
-import { retry } from "rxjs/operator/retry";
 
 @Injectable()
 export class RequireQualityControlService extends BaseRestService<RequireQc> {
@@ -26,8 +27,27 @@ export class RequireQualityControlService extends BaseRestService<RequireQc> {
       "RequireQualityControlId",
       httpErrorHandler
     )
-  }// 
+  }
 
+  // ===================== RequireQualityControl Change ============\\
+  getRequireQualityControlChange(requireQcChange:RequireQcChange): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}RequireQualityControlChange/`, JSON.stringify(requireQcChange), {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+      })
+    }).pipe(catchError(this.handleError(this.serviceName + "/require quality control change", <any>{})));
+  }
+  // ===================== RequireQualityControl Schedule ============\\
+  // get Require QualityControl Schedule
+  getRequireQualityControlSchedule(option: OptionRequireQc): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}RequireQualityControlWaiting/`, JSON.stringify(option), {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+      })
+    }).pipe(catchError(this.handleError(this.serviceName + "/require quality control waiting", <any>{})));
+  }
+
+  // ===================== Over Ride =================================\\
   /** add Model @param nObject */
   addModel(nObject: RequireQc): Observable<RequireQc> {
     return this.http.post<RequireQc>(this.baseUrl + "CreateV2/", JSON.stringify(nObject),
@@ -48,7 +68,7 @@ export class RequireQualityControlService extends BaseRestService<RequireQc> {
     }).pipe(catchError(this.handleError(this.serviceName + "/put update model", uObject)));
   }
 
-  // ===================== Action Require Quailty Control ===========================\\
+  // ===================== Action Require Quailty Control ============\\
   // action require quality control
   actionRequireQualityControl(RequireQualityControlId: number, ByEmployee: string): Observable<RequireQc> {
     const options = {

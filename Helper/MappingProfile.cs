@@ -10,11 +10,29 @@ namespace VipcoQualityControl.Helper
     {
         public MappingProfile()
         {
-            #region MasterProjectList
+            #region WorkGroupQc
+            CreateMap<WorkGroupQualityControl, WorkGroupQualityControlViewModel>()
+                .ForMember(x => x.RequireQualityControls, o => o.Ignore());
+            #endregion
 
+            #region WorkActivity
+            CreateMap<WorkActivity, WorkActivityViewModel>()
+                .ForMember(x => x.RequireQualityControls, o => o.Ignore());
+            #endregion
+
+            #region LocationQC
+            CreateMap<LocationQualityControl, LocationQualityControlViewModel>()
+                .ForMember(x => x.RequireQualityControls, o => o.Ignore());
+            #endregion
+
+            #region InspectionPoint
+            CreateMap<InspectionPoint, InspectionPointViewModel>()
+                .ForMember(x => x.RequireQualityControls, o => o.Ignore());
+            #endregion
+
+            #region MasterProjectList
             CreateMap<MasterProjectList, MasterProjectListViewModel>()
                 .ForMember(x => x.RequireHasMasterProjects, o => o.Ignore());
-
             #endregion
 
             #region RequireQuality
@@ -31,6 +49,9 @@ namespace VipcoQualityControl.Helper
                 .ForMember(x => x.WorkActivity, o => o.Ignore())
                 .ForMember(x => x.WorkGroupQualityControlString,
                             o => o.MapFrom(s => s.WorkGroupQualityControl == null ? "-" : s.WorkGroupQualityControl.Name))
+                .ForMember(x => x.LocationQualityControlString,
+                            o => o.MapFrom(s => s.LocationQualityControl == null ? "-" : s.LocationQualityControl.Name))
+                .ForMember(x => x.LocationQualityControl, o => o.Ignore())
                 .ForMember(x => x.WorkGroupQualityControl, o => o.Ignore());
             CreateMap<RequireQualityControlViewModel, RequireQualityControl>();
             #endregion

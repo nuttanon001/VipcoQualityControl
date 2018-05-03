@@ -1,0 +1,41 @@
+<div class="m-3">
+  <H5 style="color:cadetblue">Change date for quality control</H5>
+  <div *ngIf="editValueForm" class="form-container-column">
+    <form [formGroup]="editValueForm">
+      <div class="row-form">
+        <div class="left-content">
+          <mat-form-field>
+            <input matInput [matDatepicker]="ChangeDate" placeholder="Choose a date"
+                   id="ChangeDate" formControlName="ChangeDate" required>
+            <mat-datepicker-toggle matSuffix [for]="ChangeDate"></mat-datepicker-toggle>
+            <mat-datepicker #ChangeDate></mat-datepicker>
+            <mat-error *ngIf="editValueForm.controls.ChangeDate.hasError('required')">
+              Date is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="right-content">
+          <mat-form-field hintLabel="HH:mm:ss">
+            <input matInput type="time" placeholder="Change time quality control"
+                   id="ChangeTime" formControlName="ChangeTime" required>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+    <hr class="w-75 my-3" />
+    <div class="row-form">
+      <div class="left-content">
+        <button mat-mini-fab color="primary" (click)="onSubmitRequireQualityControl()"
+                matTooltip="Change date request quality control" [disabled]="!editValueForm.valid">
+          <mat-icon aria-hidden="true">compare_arrows</mat-icon>
+        </button>
+        &nbsp;&nbsp;
+        <button mat-mini-fab color="warn" (click)="onCancelRequireQualityControl()"
+                matTooltip="Cancel">
+          <mat-icon aria-hidden="true">close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

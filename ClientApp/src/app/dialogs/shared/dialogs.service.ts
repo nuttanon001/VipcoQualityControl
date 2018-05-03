@@ -20,6 +20,9 @@ import { MasterList } from "../../master-lists/shared/master-list.model";
 import { MasterListDialogComponent } from "../master-list-dialog/master-list-dialog.component";
 import { concat } from "rxjs/operator/concat";
 import { retry } from "rxjs/operators";
+import { LocationQc } from "../../location-qualitycontrols/shared/location-qc";
+import { LocationDialogComponent } from "../location-dialog/location-dialog.component";
+import { RequireQcDialogComponent } from "../require-qc-dialog/require-qc-dialog.component";
 
 @Injectable()
 export class DialogsService {
@@ -167,6 +170,53 @@ export class DialogsService {
 
     // open dialog
     dialogRef = this.dialog.open(MasterListDialogComponent, config);
+    return dialogRef.afterClosed();
+  }
+
+  /**
+   * 
+   * @param viewContainerRef
+   * @param type
+   */
+  public dialogSelectLocationAndCreateLocation(viewContainerRef: ViewContainerRef, type: number = 1): Observable<LocationQc> {
+    let dialogRef: MatDialogRef<LocationDialogComponent>;
+    let config: MatDialogConfig = new MatDialogConfig();
+
+    // config
+    config.viewContainerRef = viewContainerRef;
+    config.data = type;
+    // config.height = this.height;
+    // config.width= this.width;
+    config.hasBackdrop = true;
+
+    // open dialog
+    dialogRef = this.dialog.open(LocationDialogComponent, config);
+    return dialogRef.afterClosed();
+  }
+
+  /**
+ * RequireQualityControl
+ * @param viewContainerRef
+ * @param type
+ */
+  public dialogSelectRequireQualityControl(RequireQualityControlId: number, viewContainerRef: ViewContainerRef, ShowCommand: boolean = true): Observable<number> {
+    let dialogRef: MatDialogRef<RequireQcDialogComponent>;
+    let config: MatDialogConfig = new MatDialogConfig();
+
+    let data: { RequireQualityControlId: number, ShowCommand: boolean };
+    data = {
+      RequireQualityControlId: RequireQualityControlId,
+      ShowCommand: ShowCommand
+    };
+    // config
+    config.viewContainerRef = viewContainerRef;
+    config.data = data;
+    // config.height = this.height;
+    // config.width= this.width;
+    config.hasBackdrop = true;
+
+    // open dialog
+    dialogRef = this.dialog.open(RequireQcDialogComponent, config);
     return dialogRef.afterClosed();
   }
 }

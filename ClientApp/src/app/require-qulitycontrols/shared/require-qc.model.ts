@@ -26,6 +26,8 @@ export interface RequireQc extends BaseModel {
   WorkActivityId? :number;
   //Branch
   BranchId?: number;
+  // LocationQualityControl
+  LocationQualityControlId?: number;
   //ViewModel
   GroupMISString? :string;
   RequireEmpString? :string;
@@ -35,7 +37,10 @@ export interface RequireQc extends BaseModel {
   WorkActivityString? :string;
   BranchString? :string;
   RequireStatusString?: string;
+  LocationQualityControlString?:string;
   MasterLists?: Array<MasterList>;
+  RequireQcTime?: Date;
+  RequireQcTimeString?: any;
   // Attach Model
   AttachFile?: FileList;
   RemoveAttach?: Array<number>;

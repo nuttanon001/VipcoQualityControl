@@ -42,9 +42,9 @@ import { RegisterComponent } from "./users/register/register.component";
     BrowserAnimationsModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     // Modules
-    SharedModule,
     DialogsModule,
     CustomMaterialModule,
+    //SharedModule,
     // Router
     RouterModule.forRoot([
       { path: "", redirectTo: "home", pathMatch: "full" },

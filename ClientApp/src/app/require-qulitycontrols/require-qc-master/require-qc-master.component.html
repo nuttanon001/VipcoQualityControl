@@ -8,7 +8,8 @@
         </data-table>
         [isDisabled]="false" [isOnlyCreate]="true"
         -->
-        <app-require-qc-table (returnSelected)="onDetailView($event)"></app-require-qc-table>
+        <app-require-qc-table (returnSelected)="onDetailView($event)"
+                              [isDisabled]="false" [isOnlyCreate]="true"></app-require-qc-table>
       </div>
     </split-area>
     <split-area [size]="65" [order]="2">
@@ -19,27 +20,25 @@
           </div>
         </div>
         <!--Center-->
-        <div class="center-content">
-          <div class="card-body">
-            <!--Component-->
-            <div *ngIf="displayValue || ShowEdit; else elseBlock">
-              <div *ngIf="!ShowEdit; else detailEdit">
-                <app-require-qc-view [displayValue]="displayValue"></app-require-qc-view>
-              </div>
-              <ng-template #detailEdit>
-                <app-require-qc-edit></app-require-qc-edit>
-              </ng-template>
+        <div class="center-content-scroll">
+          <!--Component-->
+          <div *ngIf="displayValue || ShowEdit; else elseBlock">
+            <div *ngIf="!ShowEdit; else detailEdit">
+              <app-require-qc-view [displayValue]="displayValue"></app-require-qc-view>
             </div>
-            <ng-template #elseBlock>
-              <!--Title-->
-              <h4 class="card-title text-info">
-                Require Quality Control Information
-              </h4>
-              <h5 class="text-muted">
-                Selected data from list to show information or new data
-              </h5>
+            <ng-template #detailEdit>
+              <app-require-qc-edit></app-require-qc-edit>
             </ng-template>
           </div>
+          <ng-template #elseBlock>
+            <!--Title-->
+            <h4 class="card-title text-info">
+              Require Quality Control Information
+            </h4>
+            <h5 class="text-muted">
+              Selected data from list to show information or new data
+            </h5>
+          </ng-template>
         </div>
         <!--Right-->
         <div class="right-content">

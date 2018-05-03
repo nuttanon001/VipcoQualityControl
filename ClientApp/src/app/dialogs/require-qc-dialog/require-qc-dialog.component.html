@@ -1,0 +1,45 @@
+<div class="master-dialog-vh" >
+  <H5 style="color:cadetblue">Require Quality Control information.</H5>
+  <div class="child-container" *ngIf="requireQc;else ElseDialog">
+    <div class="center-content">
+      <div class="child-container" style="min-height:35px;" *ngIf="data.ShowCommand && !requireQcChange">
+        <button type="button" mat-raised-button color="primary" matTooltip="Comfirm date request quality control"
+                (click)="onCancelClick(-1)" [disabled]="requireQc.ResponseDate">
+          Confirm Date
+        </button>
+        <span>&nbsp;&nbsp;</span>
+        <button type="button" mat-raised-button color="warn" matTooltip="Change date request quality control"
+                (click)="onChangeDateClick()" [disabled]="requireQc.ResponseDate">
+          Change Date
+        </button>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <button type="button" mat-raised-button color="primary" matTooltip="Go to quality control result"
+                (click)="onSelectedValue(1)">
+          QualityControl Result
+        </button>
+        <span class="mx-2"></span>
+        <button type="button" mat-raised-button color="accent" (click)="onCancelClick()"
+                matTooltip="Go Back" class="ml-auto">
+          Close
+        </button>
+      </div>
+      <hr class="w-75 mt-1" />
+      <div *ngIf="requireQc">
+        <div *ngIf="!requireQcChange;else RequireQcChangeBlock">
+          <app-require-qc-view-extend [displayValue]="requireQc">
+          </app-require-qc-view-extend>
+        </div>
+        <ng-template #RequireQcChangeBlock>
+          <app-require-qc-change-dialog [requireQcChange]="requireQcChange"
+                                        (comfirmOrCancel)="onChangeSubmitOrCancel($event)">
+          </app-require-qc-change-dialog>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #ElseDialog>
+  <div style="display: flex;justify-content: center;align-items:center;">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

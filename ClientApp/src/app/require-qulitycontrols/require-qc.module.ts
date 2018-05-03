@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 //Modules
 import { RequireQcRoutingModule } from './require-qc-routing.module';
+
 import { CustomMaterialModule } from '../shared/customer-material/customer-material.module';
 //Components
 import { RequireQcCenterComponent } from './require-qc-center.component';
@@ -10,7 +11,7 @@ import { RequireQcTableComponent } from './require-qc-table/require-qc-table.com
 import { RequireQcMasterComponent } from './require-qc-master/require-qc-master.component';
 import { RequireQcViewComponent } from './require-qc-view/require-qc-view.component';
 import { RequireQcEditComponent } from './require-qc-edit/require-qc-edit.component';
-import { RequireQcMasterlistTableComponent } from './require-qc-masterlist-table/require-qc-masterlist-table.component';
+// import { RequireQcMasterlistTableComponent } from './require-qc-masterlist-table/require-qc-masterlist-table.component';
 //Services
 import { BranchService } from '../branchs/shared/branch.service';
 import { MasterListService } from '../master-lists/shared/master-list.service';
@@ -19,11 +20,14 @@ import { EmployeeGroupMisService } from '../employees/shared/employee-group-mis.
 import { WorkGroupQcService } from '../workgroup-qulitycontrols/shared/workgroup-qc.service';
 import { InspectionPointService } from '../inspection-points/shared/inspection-point.service';
 import { RequireQualityControlService, RequireQualityControlCommunicateService } from './shared/require-qc.service';
+import { RequireQcWaitingComponent } from './require-qc-waiting/require-qc-waiting.component';
+import { SharedModule } from "../shared/shared.module";
 
 
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
     ReactiveFormsModule,
     CustomMaterialModule,
     RequireQcRoutingModule
@@ -34,7 +38,8 @@ import { RequireQualityControlService, RequireQualityControlCommunicateService }
     RequireQcMasterComponent,
     RequireQcViewComponent,
     RequireQcEditComponent,
-    RequireQcMasterlistTableComponent
+    RequireQcWaitingComponent,
+    // RequireQcMasterlistTableComponent,
   ],
   providers: [
     BranchService,

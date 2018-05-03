@@ -22,6 +22,7 @@ namespace VipcoQualityControl.Controllers
         public InspectionPointController(IRepositoryQualityControl<InspectionPoint> repo,
             IMapper mapper) : base(repo,mapper) { }
 
+
         // POST: api/InspectionPoint/GetScroll
         [HttpPost("GetScroll")]
         public async Task<IActionResult> GetScroll([FromBody] ScrollViewModel Scroll)
@@ -69,8 +70,12 @@ namespace VipcoQualityControl.Controllers
             QueryData = QueryData.Skip(Scroll.Skip ?? 0).Take(Scroll.Take ?? 50);
             try
             {
-                var HasData = await QueryData.ToListAsync();
-                return new JsonResult(new ScrollDataViewModel<InspectionPoint>(Scroll, HasData), this.DefaultJsonSettings);
+                var HasMapper = new List<InspectionPointViewModel>();
+
+                foreach (var item in await QueryData.ToListAsync())
+                    HasMapper.Add(this.mapper.Map<InspectionPoint, InspectionPointViewModel>(item));
+
+                return new JsonResult(new ScrollDataViewModel<InspectionPointViewModel>(Scroll, HasMapper), this.DefaultJsonSettings);
             }
             catch (Exception ex)
             {

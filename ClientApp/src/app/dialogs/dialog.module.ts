@@ -21,6 +21,12 @@ import {
 } from "./dialog.index";
 import { ProjectDetailTableComponent } from './project-dialog/project-detail-table/project-detail-table.component';
 import { MasterListDialogComponent } from './master-list-dialog/master-list-dialog.component';
+import { LocationDialogComponent } from './location-dialog/location-dialog.component';
+import { LocationTableComponent } from './location-dialog/location-table/location-table.component';
+import { LocationEditComponent } from './location-dialog/location-edit/location-edit.component';
+import { RequireQcDialogComponent } from './require-qc-dialog/require-qc-dialog.component';
+import { RequireQcViewExtendComponent } from './require-qc-dialog/require-qc-view-extend.component';
+import { RequireQcChangeDialogComponent } from './require-qc-dialog/require-qc-change-dialog.component';
 
 @NgModule({
   imports: [
@@ -43,8 +49,14 @@ import { MasterListDialogComponent } from './master-list-dialog/master-list-dial
     //WorkgroupDialogComponent,
     GroupmisDialogComponent,
     GroupmisTableComponent,
-    ProjectDetailTableComponent,
     MasterListDialogComponent,
+    ProjectDetailTableComponent,
+    LocationEditComponent,
+    LocationTableComponent,
+    LocationDialogComponent,
+    RequireQcDialogComponent,
+    RequireQcViewExtendComponent,
+    RequireQcChangeDialogComponent,
   ],
   providers: [
     DialogsService,
@@ -61,6 +73,12 @@ import { MasterListDialogComponent } from './master-list-dialog/master-list-dial
     GroupmisDialogComponent,
     MasterListDialogComponent,
     ProjectDetailTableComponent,
+    LocationEditComponent,
+    LocationTableComponent,
+    LocationDialogComponent,
+    RequireQcDialogComponent,
+    RequireQcViewExtendComponent,
+    RequireQcChangeDialogComponent,
   ],
 })
 export class DialogsModule { }

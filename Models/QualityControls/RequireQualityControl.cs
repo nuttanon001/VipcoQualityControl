@@ -3,10 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VipcoQualityControl.Models.QualityControls
 {
-    public class RequireQualityControl:BaseModel
+    public class RequireQualityControl : BaseModel
     {
         [Key]
         public int RequireQualityControlId { get; set; }
@@ -23,6 +24,13 @@ namespace VipcoQualityControl.Models.QualityControls
         public string MailReply { get; set; }
         public RequireStatus RequireStatus { get; set; }
         //FK
+        // RequireQualityControl
+        [ForeignKey("ParentRequireQc")]
+        public int? ParentRequireQcId { get; set; }
+        public virtual RequireQualityControl ParentRequireQc { get; set; }
+        // LocationQualityControl
+        public int? LocationQualityControlId { get; set; }
+        public virtual LocationQualityControl LocationQualityControl { get; set; }
         // GroupMis
         public string GroupMIS { get; set; }
         // Employee
@@ -53,6 +61,7 @@ namespace VipcoQualityControl.Models.QualityControls
     {
         Waiting = 1,
         QcResponse,
+        QcChangeResponse,
         InProcess,
         Complate,
         Cancel,

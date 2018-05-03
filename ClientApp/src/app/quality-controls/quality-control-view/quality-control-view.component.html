@@ -1,0 +1,59 @@
+<div *ngIf="displayValue,else elseBlock">
+  <div *ngIf="requireQualityControl">
+    <app-require-qc-view [displayValue]="requireQualityControl">
+    </app-require-qc-view>
+  </div>
+  <mat-tab-group>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <b>Quality control infomation view.</b>
+      </ng-template>
+      <div class="view-container">
+        <!--Row1-->
+        <div class="row my-1">
+          <div class="my-label">
+            QualityControl By :
+          </div>
+          <div class="my-value">
+            {{displayValue.EmpQualityControlString || "-"}}
+          </div>
+
+          <div class="my-label">
+            Date :
+          </div>
+          <div class="my-value">
+            {{(displayValue.QualityControlResultDate | date:'dd/MM/yyyy')|| "-"}}
+          </div>
+        </div>
+        <!--Row2-->
+        <div class="row my-1">
+          <div class="my-label">
+            Description :
+          </div>
+          <textarea [value]="displayValue.Description" rows="3" readonly class="my-value">
+            </textarea>
+
+          <div class="my-label">
+            Remark :
+          </div>
+          <textarea [value]="displayValue.Remark" rows="3" readonly class="my-value">
+            </textarea>
+        </div>
+        <!--Row3-->
+        <div class="row my-1">
+          <div class="my-label">
+            Status :
+          </div>
+          <div class="my-value">
+            {{displayValue.QualityControlStatusString || "-"}}
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<ng-template #elseBlock>
+  <mat-progress-bar mode="indeterminate" style="margin-top:50px;"></mat-progress-bar>
+  Waiting... for loading
+</ng-template>

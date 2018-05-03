@@ -64,6 +64,13 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
       this.service.getOneKeyNumber(value)
         .subscribe(dbData => {
           this.editValue = dbData;
+          this.editValue.RequireQcTime = dbData.RequireQcTimeString;
+          //this.editValue.RequireQcTime = new Date();
+          // Debug
+          //console.log(dbData.RequireDate.getTime());
+          //this.editValue.RequireQcTime.setTime(dbData.RequireDate.getTime());
+          //console.log("Dbdata", JSON.stringify(this.editValue));
+
           //Employee
           this.serviceMarkNo.actionRequireQualityControlHasMarkNo(dbData.RequireQualityControlId)
             .subscribe(RequireQCHasMasterList => {
@@ -90,7 +97,11 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
         RequireQualityControlId: 0,
         RequireDate: new Date,
         RequireStatus: RequireStatusQc.Waiting,
+        RequireQcTimeString: (new Date).toLocaleTimeString("th-TH", { hour12:false})
       };
+
+      this.editValue.RequireQcTime = this.editValue.RequireQcTimeString;
+
       if (this.serviceAuth.getAuth) {
         this.editValue.RequireEmp = this.serviceAuth.getAuth.EmpCode;
         this.editValue.RequireEmpString = this.serviceAuth.getAuth.NameThai;
@@ -135,6 +146,7 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
       RequireStatus: [this.editValue.RequireStatus],
       GroupMIS: [this.editValue.GroupMIS],
       RequireEmp: [this.editValue.RequireEmp],
+      LocationQualityControlId:[this.editValue.LocationQualityControlId],
       ProjectCodeDetailId: [this.editValue.ProjectCodeDetailId],
       WorkGroupQualityControlId: [this.editValue.WorkGroupQualityControlId,
         [
@@ -177,12 +189,18 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
           Validators.required
         ]
       ],
+      LocationQualityControlString: [this.editValue.LocationQualityControlString,
+        [
+          Validators.required,
+        ]
+      ],
       WorkGroupQualityControlString: [this.editValue.WorkGroupQualityControlString],
       InspectionPointString: [this.editValue.InspectionPointString],
       WorkActivityString: [this.editValue.WorkActivityString],
       BranchString: [this.editValue.BranchString],
       RequireStatusString: [this.editValue.RequireStatusString],
       MasterLists: [this.editValue.MasterLists],
+      RequireQcTime: [this.editValue.RequireQcTime],
       // Attach File
       AttachFile: [this.editValue.AttachFile],
       RemoveAttach: [this.editValue.RemoveAttach],
@@ -315,7 +333,17 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
               });
             }
           });
-      } 
+      } else if (type === "Location") {
+        this.serviceDialogs.dialogSelectLocationAndCreateLocation(this.viewContainerRef, 0)
+          .subscribe(location => {
+            if (location) {
+              this.editValueForm.patchValue({
+                LocationQualityControlId: location.LocationQualityControlId,
+                LocationQualityControlString: location.Name,
+              });
+            }
+          });
+      }
     }
   }
 
@@ -366,6 +394,29 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
           this.onValueChanged();
         }
       });
+  }
+
+  //////////////
+  // Override //
+  //////////////
+
+  // Over ride on valid data
+  onFormValid(isValid: boolean): void {
+    //Debug
+    // console.log("ValueForm", JSON.stringify(this.editValueForm.value));
+    this.editValue = this.editValueForm.value;
+    //Debug
+    // console.log(this.editValue);
+    // console.log("Value", JSON.stringify(this.editValue));
+
+    if (this.editValue) {
+      if (!this.editValue.MasterLists) {
+        isValid = false;
+      } else if (this.editValue.MasterLists.length < 1) {
+        isValid = false;
+      } 
+    }
+    this.communicateService.toParent([this.editValue, isValid]);
   }
 
   ////////////

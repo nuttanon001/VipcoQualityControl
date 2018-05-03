@@ -68,9 +68,13 @@ namespace VipcoQualityControl.Controllers
             Scroll.TotalRow = await QueryData.CountAsync();
             // Skip Take
             QueryData = QueryData.Skip(Scroll.Skip ?? 0).Take(Scroll.Take ?? 50);
+            // Mapper
+            var HasMapper = new List<WorkActivityViewModel>();
+            foreach (var item in await QueryData.ToListAsync())
+                HasMapper.Add(this.mapper.Map<WorkActivity, WorkActivityViewModel>(item));
 
-            return new JsonResult(new ScrollDataViewModel<WorkActivity>(Scroll,
-                await QueryData.ToListAsync()), this.DefaultJsonSettings);
+            return new JsonResult(new ScrollDataViewModel<WorkActivityViewModel>(Scroll,
+                HasMapper), this.DefaultJsonSettings);
         }
     }
 }
