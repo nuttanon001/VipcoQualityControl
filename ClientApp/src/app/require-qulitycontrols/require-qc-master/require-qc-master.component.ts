@@ -11,6 +11,7 @@ import { RequireQc } from "../shared/require-qc.model";
 import { RequireQualityControlService, RequireQualityControlCommunicateService } from "../shared/require-qc.service";
 import { RequireQcTableComponent } from "../require-qc-table/require-qc-table.component";
 import { RequireStatusQc } from "../shared/require-status-qc.enum";
+import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 
 @Component({
   selector: 'app-require-qc-master',
@@ -25,6 +26,8 @@ export class RequireQcMasterComponent
     authService: AuthService,
     dialogsService: DialogsService,
     viewContainerRef: ViewContainerRef,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
     super(
       service,
@@ -36,40 +39,67 @@ export class RequireQcMasterComponent
   }
 
   //Parameter
-
   @ViewChild(RequireQcTableComponent)
   private tableComponent: RequireQcTableComponent;
-  // on change time zone befor update to webapi
-  changeTimezone(value: RequireQc): RequireQc {
-    let zone: string = "Asia/Bangkok";
-    if (value !== null) {
-      if (value.CreateDate !== null) {
-        value.CreateDate = moment.tz(value.CreateDate, zone).toDate();
-      }
-      if (value.ModifyDate !== null) {
-        value.ModifyDate = moment.tz(value.ModifyDate, zone).toDate();
-      }
-    }
-    return value;
-  }
+  forFail: boolean = false;
+  //////////////
+  // OverRide //
+  //////////////
 
-  // onReload
-  onReloadData(): void {
-    this.tableComponent.reloadData();
+  // angular hook
+  ngOnInit(): void {
+
+    // override class
+    super.ngOnInit();
+    // From mail-link
+    this.route.paramMap.subscribe((param: ParamMap) => {
+      let key: number = Number(param.get("key") || 0);
+      if (key) {
+        setTimeout(() => {
+          this.forFail = true;
+          this.onDetailEdit({
+            RequireQualityControlId: key,
+            RequireStatus: RequireStatusQc.Waiting
+          });
+        }, 500);
+      }
+    }, error => console.error(error));
+    // From fail menu
+    this.route.paramMap.subscribe((param: ParamMap) => {
+      let key: number = Number(param.get("condition") || 0);
+      if (key) {
+        this.forFail = true;
+        // setTimeout(() => {
+        //  this.onReloadData();
+        // }, 500);
+      }
+    },error => console.error(error));
   }
 
   // on detail edit override
   onDetailEdit(editValue?: RequireQc): void {
     if (editValue) {
       if (editValue.RequireStatus !== RequireStatusQc.Waiting) {
-        this.dialogsService.error("Access Deny", "คำขอตรวจสอบคุณภาพ อยู่ขณะดำเนินการไม่สามารถแก้ไขได้ !!!", this.viewContainerRef);
+        this.dialogsService.error("Access Deny", "คำขอตรวจสอบคุณภาพ ได้รับการดำเนินการไม่สามารถแก้ไขได้ !!!", this.viewContainerRef);
         return;
       }
     }
-    super.onDetailEdit(editValue);
+
+    if (this.forFail) {
+      if (this.displayValue) {
+        this.service.getGenarateFromFailRequireQualityControl(this.displayValue.RequireQualityControlId)
+          .subscribe(dbData => {
+            super.onDetailEdit(dbData);
+          });
+      } else {
+        this.dialogsService.error("Waining Message", "โปรดเลือกรายการที่ต้องการ ดำเนินการตรวจสอบคุณภาพใหม่ !!!", this.viewContainerRef);
+        return;
+      }
+    } else {
+      super.onDetailEdit(editValue);
+    }
   }
 
-  //============== OverRide =================//
   // on insert data
   onInsertToDataBase(value: RequireQc): void {
     if (this.authService.getAuth) {
@@ -141,7 +171,32 @@ export class RequireQcMasterComponent
     );
   }
 
-  // Attach
+  //////////////
+  // OverRide //
+  //////////////
+
+  // on change time zone befor update to webapi
+  changeTimezone(value: RequireQc): RequireQc {
+    let zone: string = "Asia/Bangkok";
+    if (value !== null) {
+      if (value.CreateDate !== null) {
+        value.CreateDate = moment.tz(value.CreateDate, zone).toDate();
+      }
+      if (value.ModifyDate !== null) {
+        value.ModifyDate = moment.tz(value.ModifyDate, zone).toDate();
+      }
+    }
+    return value;
+  }
+
+  // onReload
+  onReloadData(): void {
+    this.tableComponent.reloadData();
+  }
+
+  ////////////
+  // Attach //
+  ////////////
   // on attact file
   onAttactFileToDataBase(RequireQualityControlId: number, Attacts: FileList, CreateBy: string): void {
     this.service.postAttactFile(RequireQualityControlId, Attacts, CreateBy)

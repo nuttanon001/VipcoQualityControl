@@ -1,0 +1,638 @@
+<div class="control-item">
+  <button type="button" mat-icon-button color="warn" (click)="onBackToMaster()"
+          style="margin:4px;">
+    <i class="fa fa-3x fa-chevron-circle-left" aria-hidden="true" style="margin:0px;"></i>
+  </button>
+
+  <button type="button" mat-icon-button color="primary" (click)="onPrintOverTimeMaster()"
+          style="margin:4px;">
+    <i class="fa fa-3x fa-print" aria-hidden="true" style="margin:0px;"></i>
+  </button>
+</div>
+<div *ngIf="ReportData" class="report-box" id="printdiv">
+  <table border="0" cellpadding="0" cellspacing="0"
+         style="border-collapse:collapse;table-layout:fixed;">
+    <colgroup>
+      <col width="55"><!--1-->
+      <col width="55"><!--2-->
+      <col width="55"><!--3-->
+      <col width="55"><!--4-->
+      <col width="55"><!--5-->
+      <col width="55"><!--6-->
+      <col width="55"><!--7-->
+      <col width="55"><!--8-->
+      <col width="55"><!--9-->
+      <col width="55"><!--10-->
+      <col width="55"><!--11-->
+      <col width="55"><!--12-->
+      <col width="55"><!--13-->
+    </colgroup>
+    <!--Col13-->
+    <!--Header Table-->
+    <thead class="line-all">
+      <tr>
+        <td height="10" colspan="2"></td>
+        <td colspan="7" class="line-left line-right bg-light"></td>
+        <td colspan="4"></td>
+      </tr>
+      <!--Title-->
+      <tr>
+        <td height="30" colspan="2" rowspan="3">
+          <div class="img-div">
+            <img src="/qualitycontrol/images/logoVIPCO.png">
+          </div>
+        </td>
+        <td colspan="7" class="line-left title text-center bg-light">
+          <b><strong>บริษัท วิศวกิจพัฒนา จำกัด</strong></b>
+        </td>
+        <td colspan="1" class="text-right line-left">
+          QCอ้างถึง:
+        </td>
+        <td colspan="3">
+          <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td height="30" colspan="7" class="line-left title text-center bg-light">
+          <b><strong>Inspection Request</strong></b>
+        </td>
+        <td colspan="1" class="text-right line-left">
+          ITPNo.
+        </td>
+        <td colspan="3">
+          <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td height="30" colspan="7" class="line-left title text-center bg-light">
+          <b><strong>ใบเรียกการตรวจสอบและการทดสอบ</strong></b>
+        </td>
+        <td colspan="1" class="text-right line-left">
+          วันที่:
+        </td>
+        <td colspan="3">
+          <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+      </tr>
+      <!--End Title-->
+      <!--Paragraph2-->
+      <tr>
+        <td height="5" colspan="2" class="line-btm"></td>
+        <td colspan="7" class="line-left line-right line-btm bg-light"></td>
+        <td colspan="4" class="line-btm"></td>
+      </tr>
+      <tr>
+        <!--Col1-->
+        <td colspan="1" height="40" class="label text-right line-left line-top">
+          Job No.
+        </td>
+        <td colspan="3" class="value text-left line-btm line-top line-right">
+          <span>
+            {{ReportData.JobNo}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+        <!--Col2-->
+        <td colspan="1" class="label text-right line-left line-top">
+          สถานที่ตั้ง :
+        </td>
+        <td colspan="2" class="value text-left line-right">
+          <span>
+            {{ReportData.Branch}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+        <!--Col3-->
+        <td colspan="2" class="label text-right line-left line-top">
+          ต้องการตรวจวันที่ :
+        </td>
+        <td colspan="1" class="value line-btm text-left line-top line-right">
+          <span>
+            {{ReportData.RequireDate}}
+            &nbsp;&nbsp;
+          </span>
+        </td>
+        <!--Col4-->
+        <td colspan="3" class="label text-left line-no-btm">
+          &nbsp;&nbsp;&nbsp;[&nbsp;&radic;&nbsp;] ในโรงงาน
+        </td>
+      </tr>
+      <tr>
+        <td height="1" colspan="13" class="line-top"></td>
+      </tr>
+      <tr>
+        <!--Col1-->
+        <td colspan="1" height="40" class="label text-right line-left line-btm">
+          Project:
+        </td>
+        <td colspan="3" class="value line-btm text-left">
+          <span>
+            {{ReportData.Project}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+        <!--Col2-->
+        <td colspan="1" class="label text-right line-left line-btm">
+          พื้นที่:
+        </td>
+        <td colspan="2" class="value line-btm text-left">
+          <span>
+            {{ReportData.Location}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+        <!--Col3-->
+        <td colspan="2" class="label text-right line-left line-btm">
+          ต้องการตรวจเวลา :
+        </td>
+        <td colspan="1" class="value line-btm text-left">
+          <span>
+            {{ReportData.RequireTime}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+        <!--Col4-->
+        <td colspan="3" class="label text-left line-no-top">
+          &nbsp;&nbsp;&nbsp;[&nbsp;&nbsp;&nbsp;&nbsp;] นอกสถานที่ &nbsp;&nbsp;&nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td height="1" colspan="13" class="line-top"></td>
+      </tr>
+      <!--Paragraph3-->
+      <tr>
+        <td colspan="13" height="35" class="sub-title text-center bg-light line-btm">
+          <b>
+            <strong>
+              การตรวจสอบและการทดสอบ
+            </strong>
+          </b>
+        </td>
+      </tr>
+      <!--Paragraph4-->
+      <tr *ngFor="let item of ReportData.Inspections">
+        <!--Col1-->
+        <td height=25 class="item-row text-left line-left" colspan="3">
+          <div *ngIf="item.InspectionName1">
+            &nbsp;&nbsp;&nbsp;[&nbsp;{{item.InspectionCheck1 ? '&Chi;' : '&nbsp;' }}&nbsp;]&nbsp;{{item.InspectionName1}}
+          </div>
+        </td>
+        
+        <!--Col2-->
+        <td class="item-row text-left" colspan="3">
+          <div *ngIf="item.InspectionName2">
+            [&nbsp;{{item.InspectionCheck2 ? '&Chi;' : '&nbsp;' }}&nbsp;]&nbsp;{{item.InspectionName2}}
+          </div>
+        </td>
+        <!--Col3-->
+        <td class="item-row text-left" colspan="3">
+          <div *ngIf="item.InspectionName3">
+            [&nbsp;{{item.InspectionCheck3 ? '&Chi;' : '&nbsp;' }}&nbsp;]&nbsp;{{item.InspectionName3}}
+          </div>
+        </td>
+        <!--Col4-->
+        <td class="item-row text-left" colspan="3">
+          <div *ngIf="item.InspectionName4">
+            [&nbsp;{{item.InspectionCheck4 ? '&Chi;' : '&nbsp;'}}&nbsp;]&nbsp;{{item.InspectionName4}}
+          </div>
+        </td>
+        <td colspan="1" class="line-right">
+        </td>
+      </tr>
+      <!--Header1-->
+      <tr class="bg-light">
+        <td height="20" class="label text-center line-no-btm" colspan="1">
+          ลำดับ
+        </td>
+        <td class="label text-center line-no-btm" colspan="3">
+          เลขที่แบบ
+        </td>
+        <td class="label text-center line-no-btm" colspan="2">
+          ชิ้นงานนัมเบอร์
+        </td>
+        <td class="label text-center line-no-btm" colspan="2">
+          ชื่อชิ้นงาน
+        </td>
+        <td class="label text-center line-no-btm" colspan="1">
+          บ๊อก
+        </td>
+        <td class="label text-center line-no-btm" colspan="1">
+          ยูนิต
+        </td>
+        <td class="label text-center line-no-btm" colspan="1">
+          จำนวน
+        </td>
+        <td class="label text-center line-no-btm" colspan="1">
+          ผลการตรวจ
+        </td>
+        <td class="label text-center line-no-btm" colspan="1">
+          หมายเหตุ
+        </td>
+      </tr>
+      <!--Header2-->
+      <tr class="bg-light">
+        <td height="20" class="label text-center line-no-top" colspan="1">
+          No
+        </td>
+        <td class="label text-center line-no-top" colspan="3">
+          Dwg No Rev
+        </td>
+        <td class="label text-center line-no-top" colspan="2">
+          Part No./Mark No.
+        </td>
+        <td class="label text-center line-no-top" colspan="2">
+          Part Name
+        </td>
+        <td class="label text-center line-no-top" colspan="1">
+          Box
+        </td>
+        <td class="label text-center line-no-top" colspan="1">
+          Unit
+        </td>
+        <td class="label text-center line-no-top" colspan="1">
+          Qty
+        </td>
+        <td class="label text-center line-no-top" colspan="1">
+          Test result
+        </td>
+        <td class="label text-center line-no-top" colspan="1">
+          Remark
+        </td>
+      </tr>
+    </thead>
+    <!--Footer Table-->
+    <tfoot class="line-all">
+      <tr class="bg-light">
+        <td height="30" colspan="4" rowspan="2" class="label line-all text-center ">
+          บันทึกข้อคิดเห็นจากผู้เรียกตรวจ / ผู้ตรวจ
+        </td>
+        <td colspan="9" class="label line-all text-center">
+          สรุปปริมาณงานและเวลาที่ใช้ในการตรวจสอบ
+        </td>
+      </tr>
+      <tr class="bg-light">
+        <!--<td height="30" colspan="4" class="line-no-btm bg-white">
+          &nbsp;
+        </td>-->
+        <td colspan="1" class="line-all text-center">
+          ครั้งที่
+        </td>
+        <td colspan="2" class="line-all text-center">
+          ปริมาณงาน (เมตร/จุด)
+        </td>
+        <td colspan="2" class="line-all text-center">
+          เวลา (ชั่วโมง:นาที)
+        </td>
+        <td colspan="1" class="line-all text-center">
+          ผล
+        </td>
+        <td colspan="1" class="line-all text-center">
+          ผู้เรียก
+        </td>
+        <td colspan="1" class="line-all text-center">
+          ผู้ตรวจ
+        </td>
+        <td colspan="1" class="line-all text-center">
+          หมายเหตุ
+        </td>
+      </tr>
+      <tr>
+        <td height="30" colspan="4" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="2" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="2" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td height="30" colspan="4" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="2" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="2" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td height="30" colspan="4" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="2" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="2" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td height="30" colspan="4" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="2" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="2" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td height="30" colspan="4" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="2" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="2" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+        <td colspan="1" class="line-left line-right">
+          &nbsp;
+        </td>
+      </tr>
+      <!--Foot-->
+      <tr>
+        <!--Col1-->
+        <td height="30" colspan="1" class="label line-top line-left text-right">
+          ผู้เรียกตรวจ:
+        </td>
+        <td colspan="2" class="value line-top">
+          <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+        <!--Col2-->
+        <td colspan="1" class="label line-top text-right">
+          ผู้ตรวจสอบ:
+        </td>
+        <td colspan="2" class="value line-top">
+          <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+        <!--Col3-->
+        <td colspan="1" class="label line-top text-right">
+          NCR No :
+        </td>
+        <td colspan="2" class="value line-top">
+          <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+        <!--Col4-->
+        <td colspan="1" class="label line-top text-right">
+          ผู้บันทึก :
+        </td>
+        <td colspan="3" class="value line-top line-right">
+          <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <!--Col1-->
+        <td height="30" colspan="1" class="label line-left text-right">
+          กลุ่มงาน :
+        </td>
+        <td colspan="2" class="value">
+          <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+        <!--Col2-->
+        <td colspan="1" class="label text-right">
+          กลุ่มงาน :
+        </td>
+        <td colspan="2" class="value">
+          <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+        <!--Col3-->
+        <td colspan="1" class="label text-right">
+          ผู้ออกNCR:
+        </td>
+        <td colspan="2" class="value">
+          <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+        <!--Col4-->
+        <td colspan="1" class="label text-right">
+          ว/ด/ป :
+        </td>
+        <td colspan="3" class="value line-right">
+          <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <!--Col1-->
+        <td height="30" colspan="1" class="label line-btm line-left text-right">
+          ว/ด/ป :
+        </td>
+        <td colspan="2" class="value line-btm">
+          <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+        <!--Col2-->
+        <td colspan="1" class="label line-btm text-right">
+          ว/ด/ป :
+        </td>
+        <td colspan="2" class="value line-btm">
+          <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+        <!--Col3-->
+        <td colspan="1" class="label line-btm text-right">
+          ว/ด/ป :
+        </td>
+        <td colspan="2" class="value line-btm">
+          <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </td>
+        <!--Col4-->
+        <td colspan="4" class="value line-btm line-right">
+        </td>
+      </tr>
+      <tr class="bg-light">
+        <td height="30" colspan="3" class="label text-center line-top line-left line-btm">
+          ความหมายอักษรย่อ : 
+        </td>
+        <td colspan="7" class="label line-top line-btm text-left">
+          ACC : ยอมรับ  AAR : ยอมรับหลังจากมีการแก้ไขเสร็จแล้ว  REJ : ปฎิเสธการยอมรับ
+        </td>
+        <td colspan="3" class="label line-top line-btm line-right">
+          Form VQP 09B.02 Version 8
+        </td>
+      </tr>
+    </tfoot>
+    <!--Body Table-->
+    <tbody class="line-all">
+      <tr *ngFor="let item of ReportData.ListMarkNos">
+        <!--NewLine-->
+        <td height="20" class="label text-center line-btm line-right" colspan="1">
+          {{item.RowNumber}}
+        </td>
+        <td class="label text-left line-btm line-right" colspan="3">
+          {{item.DrawingNo || "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"}}
+        </td>
+        <td class="label text-center line-btm line-right" colspan="2">
+          {{item.MarkNo || "-"}}
+        </td>
+        <td class="label text-center line-btm line-right" colspan="2">
+          {{item.Name || "-"}}
+        </td>
+        <td class="label text-center line-btm line-right" colspan="1">
+          {{item.Box}}
+        </td>
+        <td class="label text-center line-btm line-right" colspan="1">
+          {{item.Unit}}
+        </td>
+        <td class="label text-center line-btm line-right" colspan="1">
+          {{item.Quantity}}
+        </td>
+        <td class="label text-center line-btm line-right" colspan="1">
+          {{item.TestResult || "-"}}
+        </td>
+        <td class="label text-center line-btm line-right" colspan="1">
+          {{item.Remark || "-"}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

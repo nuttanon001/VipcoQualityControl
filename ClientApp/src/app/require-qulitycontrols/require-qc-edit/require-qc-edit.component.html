@@ -7,7 +7,7 @@
       <form [formGroup]="editValueForm">
         <div class="form-container-column">
           <mat-accordion class="headers-align">
-            <mat-expansion-panel class="my-1">
+            <mat-expansion-panel class="my-1" [expanded]="true">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   Request information panel
@@ -46,7 +46,6 @@
                       </mat-form-field>
                     </div>
                   </div>
-
                 </div>
               </div>
               <!--Row2-->
@@ -72,7 +71,7 @@
                 <div class="left-content">
                   <mat-form-field>
                     <mat-select placeholder="Branch"
-                                required
+                                required [disabled]="forFail"
                                 id="BranchId" formControlName="BranchId">
                       <mat-option *ngFor="let branch of branchs" [value]="branch.BranchId">
                         {{ branch.Name }}
@@ -95,7 +94,7 @@
                 <div class="left-content">
                   <mat-form-field>
                     <mat-select placeholder="InspectionPoint"
-                                required
+                                required [disabled]="forFail"
                                 id="InspectionPointId" formControlName="InspectionPointId">
                       <mat-option *ngFor="let inspection of inspections" [value]="inspection.InspectionPointId">
                         {{ inspection.Name }}
@@ -107,7 +106,7 @@
                 <div class="right-content">
                   <mat-form-field>
                     <mat-select placeholder="WorkActivity"
-                                required
+                                required [disabled]="forFail"
                                 id="WorkActivityId" formControlName="WorkActivityId">
                       <mat-option *ngFor="let workActivitie of workActivities" [value]="workActivitie.WorkActivityId">
                         {{ workActivitie.Name }}
@@ -121,7 +120,7 @@
                 <div class="left-content">
                   <mat-form-field>
                     <mat-select placeholder="WorkGroup QC"
-                                required
+                                required [disabled]="forFail"
                                 id="WorkGroupQualityControlId" formControlName="WorkGroupQualityControlId">
                       <mat-option *ngFor="let workGroupQc of workGroupQcs" [value]="workGroupQc.WorkGroupQualityControlId">
                         {{ workGroupQc.Name }}
@@ -188,7 +187,7 @@
               </mat-expansion-panel-header>
               <!--Row8-->
               <div class="row-form">
-                <div class="left-content">
+                <div class="left-content" *ngIf="!forFail">
                   <app-attach-file id="AttactFile" (results)="onUpdateAttachResults($event)">
                   </app-attach-file>
                 </div>
@@ -211,7 +210,7 @@
                             {{num2 + 1}}. {{file.FileName}}
                           </td>
                           <td>
-                            <div>
+                            <div *ngIf="!forFail">
                               <a class="btn btn-sm btn-danger" matTooltip="Remove Attach File" (click)="onDeleteAttachFile(file)">
                                 <em class="fa fa-remove"></em>
                               </a>
@@ -225,7 +224,6 @@
               </div>
             </mat-expansion-panel>
           </mat-accordion>
-          
         </div>
       </form>
     </mat-step>
@@ -234,14 +232,15 @@
         <strong><b>Request Item && Mark No</b></strong>
       </ng-template>
       <div class="form-container-column">
-        <div class="my-0">
+        <div class="my-0" *ngIf="!forFail">
           <button mat-mini-fab color="primary" (click)="actionMarkNo()"
                   matTooltip="Add Mark No">
             <mat-icon>add_circle_outline</mat-icon>
           </button>
         </div>
         <div *ngIf="editValue.MasterLists">
-          <app-require-qc-masterlist-table [dataRows]="editValue.MasterLists" (returnSelected)="actionMarkNo($event)">
+          <app-require-qc-masterlist-table [dataRows]="editValue.MasterLists" (returnSelected)="actionMarkNo($event)"
+                                           [readOnly]="forFail">
           </app-require-qc-masterlist-table>
         </div>
       </div>

@@ -14,6 +14,10 @@ const routes: Routes = [
         component: RequireQcWaitingComponent,
       },
       {
+        path: "fail-require-schedule/:condition",
+        component: RequireQcMasterComponent,
+      },
+      {
         path: ":key",
         component: RequireQcMasterComponent,
       },

@@ -35,6 +35,13 @@
       </mat-header-cell>
       <mat-cell *matCellDef="let row">{{ row.Quantity | number }}</mat-cell>
     </ng-container>
+    <!--FailQuantity-->
+    <ng-container matColumnDef="FailQuantity" >
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        FailQuantity
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.FailQuantity | number }}</mat-cell>
+    </ng-container>
     <!-- edit Column -->
     <ng-container matColumnDef="edit">
       <mat-header-cell *matHeaderCellDef>

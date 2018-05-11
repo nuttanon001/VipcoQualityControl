@@ -1,4 +1,6 @@
 import { Component, ViewContainerRef, ViewChild } from "@angular/core";
+import { Router, ActivatedRoute, ParamMap } from "@angular/router";
+import { Location } from "@angular/common";
 // components
 import { BaseMasterComponent } from "../../shared/base-master-component";
 // models
@@ -10,6 +12,7 @@ import { QualityControlService, QualityControlCommunicateService } from "../shar
 // timezone
 import * as moment from "moment-timezone";
 import { QualityControlTableComponent } from "../quality-control-table/quality-control-table.component";
+import { QualityControlStatus } from "../shared/quality-control-status.enum";
 
 @Component({
   selector: 'app-quality-control-master',
@@ -25,6 +28,9 @@ export class QualityControlMasterComponent extends BaseMasterComponent<QualityCo
     authService: AuthService,
     dialogsService: DialogsService,
     viewContainerRef: ViewContainerRef,
+    private location: Location,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
     super(
       service,
@@ -36,9 +42,42 @@ export class QualityControlMasterComponent extends BaseMasterComponent<QualityCo
   }
 
   //Parameter
-
+  backToSchedule: boolean;
+  loadReport: boolean = false;
   @ViewChild(QualityControlTableComponent)
   private tableComponent: QualityControlTableComponent;
+
+  // override
+  ngOnInit(): void {
+    // override class
+    super.ngOnInit();
+    this.route.paramMap.subscribe((param: ParamMap) => {
+      let key: number = Number(param.get("condition") || 0);
+      if (key) {
+        // can go back to last page
+        this.backToSchedule = true;
+        let itemMainten: QualityControl = {
+          QualityControlResultId: 0,
+          RequireQualityControlId: key,
+          QualityControlStatus: QualityControlStatus.Processing
+        };
+        setTimeout(() => {
+          this.onDetailEdit(itemMainten);
+        }, 500);
+      }
+    }, error => console.error(error));
+  }
+
+  // on detail edit override
+  onDetailEdit(editValue?: QualityControl): void {
+    if (editValue) {
+      if (editValue.QualityControlStatus !== QualityControlStatus.Processing) {
+        this.dialogsService.error("Access Deny", "การตรวจสอบคุณภาพ ได้รับการดำเนินการไม่สามารถแก้ไขได้ !!!", this.viewContainerRef);
+        return;
+      }
+    }
+    super.onDetailEdit(editValue);
+  }
 
   // on change time zone befor update to webapi
   changeTimezone(value: QualityControl): QualityControl {
@@ -57,5 +96,20 @@ export class QualityControlMasterComponent extends BaseMasterComponent<QualityCo
   // onReload
   onReloadData(): void {
     this.tableComponent.reloadData();
+  }
+
+  // on show report
+  onReport(Value?: QualityControl): void {
+    if (Value) {
+      this.loadReport = !this.loadReport;
+    }
+  }
+
+  // on back from report
+  onBack(): void {
+    this.loadReport = !this.loadReport;
+    if (this.backToSchedule) {
+      this.location.back();
+    }
   }
 }

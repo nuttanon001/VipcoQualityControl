@@ -70,7 +70,7 @@ namespace VipcoQualityControl
             }
 
             // Http to Https
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();

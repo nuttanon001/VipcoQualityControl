@@ -3,8 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VipcoQualityControl.Models.QualityControls;
 
 namespace VipcoQualityControl.Migrations
@@ -16,13 +15,15 @@ namespace VipcoQualityControl.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.0-preview2-30571")
+                .HasAnnotation("ProductVersion", "2.1.0-rc1-32029")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.Branch", b =>
                 {
                     b.Property<int>("BranchId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
                         .HasMaxLength(250);
@@ -51,7 +52,8 @@ namespace VipcoQualityControl.Migrations
             modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.InspectionPoint", b =>
                 {
                     b.Property<int>("InspectionPointId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CreateDate");
 
@@ -84,7 +86,8 @@ namespace VipcoQualityControl.Migrations
             modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.LocationQualityControl", b =>
                 {
                     b.Property<int>("LocationQualityControlId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CreateDate");
 
@@ -116,7 +119,8 @@ namespace VipcoQualityControl.Migrations
             modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.MasterProjectList", b =>
                 {
                     b.Property<int>("MasterProjectListId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CreateDate");
 
@@ -165,7 +169,8 @@ namespace VipcoQualityControl.Migrations
             modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.Permission", b =>
                 {
                     b.Property<int>("PermissionId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CreateDate");
 
@@ -186,10 +191,48 @@ namespace VipcoQualityControl.Migrations
                     b.ToTable("Permission");
                 });
 
+            modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.QualityControlResult", b =>
+                {
+                    b.Property<int>("QualityControlResultId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreateDate");
+
+                    b.Property<string>("Creator")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("EmpCode");
+
+                    b.Property<DateTime?>("ModifyDate");
+
+                    b.Property<string>("Modifyer")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("QualityControlResultDate");
+
+                    b.Property<int>("QualityControlStatus");
+
+                    b.Property<string>("Remark")
+                        .HasMaxLength(250);
+
+                    b.Property<int?>("RequireQualityControlId");
+
+                    b.HasKey("QualityControlResultId");
+
+                    b.HasIndex("RequireQualityControlId");
+
+                    b.ToTable("QualityControlResult");
+                });
+
             modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.RequireHasAttach", b =>
                 {
                     b.Property<int>("RequireHasAttachId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("AttachFileId");
 
@@ -215,7 +258,8 @@ namespace VipcoQualityControl.Migrations
             modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.RequireHasMasterProject", b =>
                 {
                     b.Property<int>("RequireHasMasterProjectId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CreateDate");
 
@@ -247,7 +291,8 @@ namespace VipcoQualityControl.Migrations
             modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.RequireQualityControl", b =>
                 {
                     b.Property<int>("RequireQualityControlId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("BranchId");
 
@@ -315,7 +360,8 @@ namespace VipcoQualityControl.Migrations
             modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.WorkActivity", b =>
                 {
                     b.Property<int>("WorkActivityId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CreateDate");
 
@@ -348,7 +394,8 @@ namespace VipcoQualityControl.Migrations
             modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.WorkGroupQualityControl", b =>
                 {
                     b.Property<int>("WorkGroupQualityControlId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CreateDate");
 
@@ -381,7 +428,8 @@ namespace VipcoQualityControl.Migrations
             modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.WorkQualityControl", b =>
                 {
                     b.Property<int>("WorkQualityControlId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CreateDate");
 
@@ -405,7 +453,7 @@ namespace VipcoQualityControl.Migrations
 
                     b.Property<int?>("RequireQualityControlId");
 
-                    b.Property<int>("WorkQcStatus");
+                    b.Property<int?>("WorkQcStatus");
 
                     b.HasKey("WorkQualityControlId");
 
@@ -414,6 +462,13 @@ namespace VipcoQualityControl.Migrations
                         .HasFilter("[RequireQualityControlId] IS NOT NULL");
 
                     b.ToTable("WorkQualityControl");
+                });
+
+            modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.QualityControlResult", b =>
+                {
+                    b.HasOne("VipcoQualityControl.Models.QualityControls.RequireQualityControl", "RequireQualityControl")
+                        .WithMany()
+                        .HasForeignKey("RequireQualityControlId");
                 });
 
             modelBuilder.Entity("VipcoQualityControl.Models.QualityControls.RequireHasAttach", b =>

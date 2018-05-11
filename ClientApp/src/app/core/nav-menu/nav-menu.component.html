@@ -32,6 +32,11 @@
               <mat-icon>style</mat-icon>
               <span>&nbsp;Require-Quality Control&nbsp;</span>
             </button>
+            <hr />
+            <button mat-menu-item [routerLink]="['/require-qc/fail-require-schedule/','1']" routerLinkActive="active">
+              <mat-icon>do_not_disturb_off</mat-icon>
+              <span>&nbsp;Fail Quality Control&nbsp;</span>
+            </button>
           </div>
         </mat-menu>
       </li>
@@ -49,10 +54,6 @@
             <button mat-menu-item [routerLink]="['/require-qc/require-schedule']" routerLinkActive="active">
               <mat-icon>date_range</mat-icon>
               <span>&nbsp;Require-Schedule&nbsp;</span>
-            </button>
-            <button mat-menu-item [routerLink]="['/qualitycontrol/schedule','2']" routerLinkActive="active">
-              <mat-icon class="rotate-90">equalizer</mat-icon>
-              <span>&nbsp;Quality Control Progress&nbsp;</span>
             </button>
             <button mat-menu-item [routerLink]="['/qualitycontrol']" routerLinkActive="active">
               <mat-icon>build</mat-icon>

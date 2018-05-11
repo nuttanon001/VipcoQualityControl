@@ -1,5 +1,5 @@
 // angular
-import { Component, ViewContainerRef, group } from "@angular/core";
+import { Component, ViewContainerRef, group, Input } from "@angular/core";
 import { FormBuilder, FormControl, Validators, AbstractControl } from "@angular/forms";
 // models
 import { RequireQc } from "../shared/require-qc.model";
@@ -24,6 +24,7 @@ import { InspectionPointService } from "../../inspection-points/shared/inspectio
 import { RequireQualityControlCommunicateService, RequireQualityControlService } from "../shared/require-qc.service";
 import { ArgumentOutOfRangeError } from "rxjs";
 import { MasterListService } from "../../master-lists/shared/master-list.service";
+import { transformMenu } from "@angular/material";
 
 @Component({
   selector: 'app-require-qc-edit',
@@ -58,40 +59,63 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
   workActivities: Array<WorkActivity>;
   workGroupQcs: Array<WorkGroupQc>;
   attachFiles: Array<AttachFile>;
+  forFail: boolean = false;
+
+  //////////////
+  // OverRide //
+  //////////////
+  ngOnInit(): void {
+    this.forFail = false;
+    // ngOnInit
+    super.ngOnInit();
+  }
+
   // on get data by key
   onGetDataByKey(value?: RequireQc): void {
     if (value) {
-      this.service.getOneKeyNumber(value)
-        .subscribe(dbData => {
-          this.editValue = dbData;
-          this.editValue.RequireQcTime = dbData.RequireQcTimeString;
-          //this.editValue.RequireQcTime = new Date();
-          // Debug
-          //console.log(dbData.RequireDate.getTime());
-          //this.editValue.RequireQcTime.setTime(dbData.RequireDate.getTime());
-          //console.log("Dbdata", JSON.stringify(this.editValue));
+      if (!value.ParentRequireQcId) {
+        this.service.getOneKeyNumber(value)
+          .subscribe(dbData => {
+            this.editValue = dbData;
+            this.editValue.RequireQcTime = dbData.RequireQcTimeString;
+            //this.editValue.RequireQcTime = new Date();
+            // Debug
+            //console.log(dbData.RequireDate.getTime());
+            //this.editValue.RequireQcTime.setTime(dbData.RequireDate.getTime());
+            //console.log("Dbdata", JSON.stringify(this.editValue));
 
-          //Employee
-          this.serviceMarkNo.actionRequireQualityControlHasMarkNo(dbData.RequireQualityControlId)
-            .subscribe(RequireQCHasMasterList => {
-              this.editValue.MasterLists = new Array;
-              if (RequireQCHasMasterList) {
-                RequireQCHasMasterList.forEach((item, index) => {
-                  this.editValue.MasterLists.push({
-                    CreateDate: item.CreateDate,
-                    Creator: item.Creator,
-                    MarkNo: item.MarkNo,
-                    Name: item.Name,
-                    Quantity: item.Quantity,
-                    MasterProjectListId: item.MasterProjectListId
+            //RequireQualityControl
+            this.serviceMarkNo.actionRequireQualityControlHasMarkNo(dbData.RequireQualityControlId)
+              .subscribe(RequireQCHasMasterList => {
+                this.editValue.MasterLists = new Array;
+                if (RequireQCHasMasterList) {
+                  RequireQCHasMasterList.forEach((item, index) => {
+                    this.editValue.MasterLists.push({
+                      CreateDate: item.CreateDate,
+                      Creator: item.Creator,
+                      MarkNo: item.MarkNo,
+                      Name: item.Name,
+                      Quantity: item.Quantity,
+                      MasterProjectListId: item.MasterProjectListId
+                    });
                   });
-                });
-                //Patch value to Form
-                this.editValueForm.patchValue({
-                  MasterLists: this.editValue.MasterLists
-                });
-              }});
-        }, error => console.error(error), () => this.buildForm());
+                  //Patch value to Form
+                  this.editValueForm.patchValue({
+                    MasterLists: this.editValue.MasterLists
+                  });
+                }
+              });
+          }, error => console.error(error), () => this.buildForm());
+      } else { // Form fail require quality control
+        //Debug here
+        this.forFail = true;
+
+        this.editValue = value;
+        this.editValue.RequireDate = new Date;
+        this.editValue.RequireQcTimeString = (new Date).toLocaleTimeString("th-TH", { hour12: false });
+        this.editValue.RequireQcTime = this.editValue.RequireQcTimeString;
+        this.buildForm();
+      }
     } else {
       this.editValue = {
         RequireQualityControlId: 0,
@@ -115,13 +139,13 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
 
   // build form
   buildForm(): void {
-    //GetData
+    // GetData
     this.getBranchs();
     this.getAttach();
     this.getInspectionPoint();
     this.getWorkActivity();
     this.getWorkGroupQualityControl();
-    //Form
+    // Form
     this.editValueForm = this.fb.group({
       RequireQualityControlId: [this.editValue.RequireQualityControlId],
       RequireQualityNo: [this.editValue.RequireQualityNo],
@@ -144,9 +168,10 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
       ],
       MailReply: [this.editValue.MailReply],
       RequireStatus: [this.editValue.RequireStatus],
+      //FK
+      ParentRequireQcId: [this.editValue.ParentRequireQcId],
       GroupMIS: [this.editValue.GroupMIS],
       RequireEmp: [this.editValue.RequireEmp],
-      LocationQualityControlId:[this.editValue.LocationQualityControlId],
       ProjectCodeDetailId: [this.editValue.ProjectCodeDetailId],
       WorkGroupQualityControlId: [this.editValue.WorkGroupQualityControlId,
         [
@@ -168,6 +193,7 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
           Validators.required
         ]
       ],
+      LocationQualityControlId:[this.editValue.LocationQualityControlId],
       // BaseModel
       Creator: [this.editValue.Creator],
       CreateDate: [this.editValue.CreateDate],
@@ -298,6 +324,10 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
 
   // open dialog
   openDialog(type?: string): void {
+    if (this.forFail) {
+      return;
+    }
+
     if (type) {
       if (type === "Employee") {
         this.serviceDialogs.dialogSelectEmployee(this.viewContainerRef)
@@ -425,11 +455,20 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
 
   // get attact file
   getAttach(): void {
-    if (this.editValue && this.editValue.RequireQualityControlId > 0) {
-      this.service.getAttachFile(this.editValue.RequireQualityControlId)
-        .subscribe(dbAttach => {
-          this.attachFiles = dbAttach.slice();
-        }, error => console.error(error));
+    if (this.forFail) {
+      if (this.editValue && this.editValue.ParentRequireQcId > 0) {
+        this.service.getAttachFile(this.editValue.ParentRequireQcId)
+          .subscribe(dbAttach => {
+            this.attachFiles = dbAttach.slice();
+          }, error => console.error(error));
+      }
+    } else {
+      if (this.editValue && this.editValue.RequireQualityControlId > 0) {
+        this.service.getAttachFile(this.editValue.RequireQualityControlId)
+          .subscribe(dbAttach => {
+            this.attachFiles = dbAttach.slice();
+          }, error => console.error(error));
+      }
     }
   }
 
@@ -448,6 +487,10 @@ export class RequireQcEditComponent extends BaseEditComponent<RequireQc, Require
 
   // on Attach delete file
   onDeleteAttachFile(attach: AttachFile): void {
+    if (this.forFail) {
+      return;
+    }
+
     if (attach) {
       if (!this.editValue.RemoveAttach) {
         this.editValue.RemoveAttach = new Array;

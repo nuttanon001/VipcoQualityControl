@@ -1,5 +1,5 @@
 // Angular Core
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 // Components
 import { CustomMatTableComponent } from "../../shared/custom-mat-table/custom-mat-table.component";
 // Models

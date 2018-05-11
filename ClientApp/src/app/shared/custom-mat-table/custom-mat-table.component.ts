@@ -39,6 +39,7 @@ export class CustomMatTableComponent<Model,Service extends BaseRestService<Model
   @Input() isOnlyCreate: boolean = false;
   @Input() isDisabled: boolean = true;
   @Input() isMultiple: boolean = false;
+  @Input() isSubAction: string = "GetScroll/";
   @Output() returnSelected: EventEmitter<Model> = new EventEmitter<Model>();
   @Output() returnSelectesd: EventEmitter<Array<Model>> = new EventEmitter<Array<Model>>();
 
@@ -64,6 +65,9 @@ export class CustomMatTableComponent<Model,Service extends BaseRestService<Model
       .pipe(
       startWith({}),
       switchMap(() => {
+        // Test1
+        // console.log("Test1");
+
         this.isLoadingResults = true;
         let scroll: Scroll = {
           Skip: this.paginator.pageIndex * this.paginator.pageSize,
@@ -71,15 +75,17 @@ export class CustomMatTableComponent<Model,Service extends BaseRestService<Model
           Filter: this.searchBox.search2,
           SortField: this.sort.active,
           SortOrder: this.sort.direction === "desc" ? 1 : -1,
-          Where: this.searchBox.onlyCreate2 ? this.authService.getAuth.UserName || "" : ""
+          Where: this.searchBox.onlyCreate2 ? (this.authService ? this.authService.getAuth.UserName || "" : "") : ""
         };
-        return this.service.getAllWithScroll(scroll);
+        return this.service.getAllWithScroll(scroll,this.isSubAction);
       }),
       map(data => {
         // Flip flag to show that loading has finished.
         this.isLoadingResults = false;
         this.isRateLimitReached = false;
         this.resultsLength = data.Scroll.TotalRow;
+        //Debug Here
+        // console.log("Table Data", JSON.stringify(data.Data));
         return data.Data;
       }),
       catchError(() => {
@@ -115,7 +121,7 @@ export class CustomMatTableComponent<Model,Service extends BaseRestService<Model
       SortOrder: this.sort.direction === "desc" ? 1 : -1,
       Where: this.searchBox.onlyCreate2 ? this.authService.getAuth.UserName || "" : ""
     };
-    this.service.getAllWithScroll(scroll).subscribe(dbData => {
+    this.service.getAllWithScroll(scroll, this.isSubAction).subscribe(dbData => {
       this.isLoadingResults = false;
       this.isRateLimitReached = false;
       // Set Data

@@ -6,7 +6,7 @@
       </ng-template>
       <div class="view-container">
         <mat-accordion>
-          <mat-expansion-panel>
+          <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Request information panel
@@ -163,7 +163,7 @@
         </mat-accordion>
       </div>
     </mat-tab>
-    <mat-tab>
+    <mat-tab *ngIf="!noMasterList">
       <ng-template mat-tab-label>
         <b>Request item && Request mark-no</b>
       </ng-template>

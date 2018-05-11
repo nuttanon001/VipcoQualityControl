@@ -9,5 +9,6 @@ namespace VipcoQualityControl.ViewModels
     public class MasterProjectListViewModel:MasterProjectList
     {
         public string ProjectCodeDetailString { get; set; }
+        public double? FailQuantity { get; set; }
     }
 }

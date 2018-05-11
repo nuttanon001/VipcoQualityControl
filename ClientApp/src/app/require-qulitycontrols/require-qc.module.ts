@@ -22,6 +22,9 @@ import { InspectionPointService } from '../inspection-points/shared/inspection-p
 import { RequireQualityControlService, RequireQualityControlCommunicateService } from './shared/require-qc.service';
 import { RequireQcWaitingComponent } from './require-qc-waiting/require-qc-waiting.component';
 import { SharedModule } from "../shared/shared.module";
+import { RequireHasMasterService } from './shared/require-has-master.service';
+import { RequireQcFailEditComponent } from './require-qc-fail-edit/require-qc-fail-edit.component';
+import { RequireQcScheduleComponent } from './require-qc-schedule/require-qc-schedule.component';
 
 
 @NgModule({
@@ -39,6 +42,8 @@ import { SharedModule } from "../shared/shared.module";
     RequireQcViewComponent,
     RequireQcEditComponent,
     RequireQcWaitingComponent,
+    RequireQcFailEditComponent,
+    RequireQcScheduleComponent,
     // RequireQcMasterlistTableComponent,
   ],
   providers: [
@@ -49,7 +54,8 @@ import { SharedModule } from "../shared/shared.module";
     InspectionPointService,
     EmployeeGroupMisService,
     RequireQualityControlService,
-    RequireQualityControlCommunicateService
+    RequireQualityControlCommunicateService,
+    RequireHasMasterService
   ]
 })
 export class RequireQcModule { }

@@ -12,6 +12,8 @@ export interface RequireQc extends BaseModel {
   MailReply?: string;
   RequireStatus?: RequireStatusQc;
   //FK
+  //ParentRequireQcId
+  ParentRequireQcId?: number;
   // GroupMis
   GroupMIS? : string;
   // Employee

@@ -9,6 +9,7 @@
         [isDisabled]="false" [isOnlyCreate]="true"
         -->
         <app-require-qc-table (returnSelected)="onDetailView($event)"
+                              [isSubAction]="forFail ? 'GetScrollOnFail/' : 'GetScroll/'"
                               [isDisabled]="false" [isOnlyCreate]="true"></app-require-qc-table>
       </div>
     </split-area>
@@ -24,7 +25,7 @@
           <!--Component-->
           <div *ngIf="displayValue || ShowEdit; else elseBlock">
             <div *ngIf="!ShowEdit; else detailEdit">
-              <app-require-qc-view [displayValue]="displayValue"></app-require-qc-view>
+              <app-require-qc-view [displayValue]="displayValue" [forFail]="forFail"></app-require-qc-view>
             </div>
             <ng-template #detailEdit>
               <app-require-qc-edit></app-require-qc-edit>
@@ -47,7 +48,7 @@
             <i class="fa fa-2x fa-plus" aria-hidden="true"></i>
           </button>
           <button type="button" mat-icon-button color="accent" (click)="onDetailEdit(displayValue)"
-                  [disabled]="ShowEdit || DisplayDataNull" matTooltip="Edit" matTooltipPosition="left">
+                  [disabled]="ShowEdit || DisplayDataNull || forFail" matTooltip="Edit" matTooltipPosition="left">
             <i class="fa fa-2x fa-pencil" aria-hidden="true"></i>
           </button>
           <hr />

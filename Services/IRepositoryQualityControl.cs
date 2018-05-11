@@ -14,7 +14,7 @@ namespace VipcoQualityControl.Services
         Task<TEntity> GetAsync(string TEntityId);
         Task<TEntity> GetAsynvWithIncludes(int id, string PkName, List<string> Includes = null);
         IQueryable<TEntity> GetAllAsQueryable();
-        Task<ICollection<TEntity>> GetAllAsync();
+        Task<ICollection<TEntity>> GetAllAsync(bool option = false);
         Task<ICollection<TEntity>> GetAllWithRelateAsync(Expression<Func<TEntity, bool>> match = null);
         Task<ICollection<TEntity>> GetAllWithConditionAndIncludeAsync(
             Expression<Func<TEntity, bool>> Condition = null, List<string> Includes = null);
@@ -23,7 +23,7 @@ namespace VipcoQualityControl.Services
         Task<ICollection<TEntity>> GetAllWithInclude2Async(List<string> includes);
         Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> match);
         TEntity Find(Expression<Func<TEntity, bool>> match);
-        Task<ICollection<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> match);
+        Task<ICollection<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> match, bool option = false);
         ICollection<TEntity> FindAll(Expression<Func<TEntity, bool>> match);
         Task<ICollection<TEntity>> FindAllWithIncludeAsync
             (Expression<Func<TEntity, bool>> match, List<Expression<Func<TEntity, object>>> relates);

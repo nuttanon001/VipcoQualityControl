@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 // services
 import { HttpErrorHandler } from "../../shared/http-error-handler.service"
 // models
@@ -24,6 +24,36 @@ export class QualityControlService extends BaseRestService<QualityControl> {
       "QualityControlResultId",
       httpErrorHandler
     )
+  }
+
+  // ===================== Over Ride ================================= \\
+  /** add Model @param nObject */
+  addModel(nObject: QualityControl): Observable<QualityControl> {
+    // console.log("Data", JSON.stringify(nObject));
+
+    return this.http.post<QualityControl>(this.baseUrl + "CreateV2/", JSON.stringify(nObject),
+      {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json",
+        })
+      }).pipe(catchError(this.handleError(this.serviceName + "/post model", nObject)));
+  }
+
+  /** update with key number */
+  updateModelWithKey(uObject: QualityControl): Observable<QualityControl> {
+    return this.http.put<QualityControl>(this.baseUrl + "UpdateV2/", JSON.stringify(uObject), {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+      }),
+      params: new HttpParams().set("key", uObject[this.keyName].toString())
+    }).pipe(catchError(this.handleError(this.serviceName + "/put update model", uObject)));
+  }
+
+  // ===================== Quality Control Report ==================== \\
+  getQualityControlReport(QualityControlId: number): Observable<any> {
+    return this.http.get<any>(this.baseUrl + "QuailtyControlReport/", {
+      params: new HttpParams().set("key", QualityControlId.toString())
+    }).pipe(catchError(this.handleError(this.serviceName + "/get quality control report", <any>{})));
   }
 }
 

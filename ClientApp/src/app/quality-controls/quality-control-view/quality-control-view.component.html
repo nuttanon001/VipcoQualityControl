@@ -1,12 +1,8 @@
 <div *ngIf="displayValue,else elseBlock">
-  <div *ngIf="requireQualityControl">
-    <app-require-qc-view [displayValue]="requireQualityControl">
-    </app-require-qc-view>
-  </div>
   <mat-tab-group>
     <mat-tab>
       <ng-template mat-tab-label>
-        <b>Quality control infomation view.</b>
+        <b>Quality control infomation view</b>
       </ng-template>
       <div class="view-container">
         <!--Row1-->
@@ -50,7 +46,21 @@
         </div>
       </div>
     </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <b>Item quality control</b>
+      </ng-template>
+      <div class="view-container" *ngIf="requireHasMasters">
+        <app-quality-control-has-markno-table [dataRows]="requireHasMasters" [readOnly]="true">
+        </app-quality-control-has-markno-table>
+      </div>
+    </mat-tab>
   </mat-tab-group>
+  <hr />
+  <div *ngIf="requireQualityControl">
+    <app-quality-control-has-require [displayValue]="requireQualityControl">
+    </app-quality-control-has-require>
+  </div>
 </div>
 
 <ng-template #elseBlock>

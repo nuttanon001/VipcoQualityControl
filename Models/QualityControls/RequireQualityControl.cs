@@ -55,6 +55,8 @@ namespace VipcoQualityControl.Models.QualityControls
         public virtual ICollection<RequireHasAttach> RequireHasAttaches { get; set; }
         // WorkQualityControl
         public virtual WorkQualityControl WorkQualityControl { get; set; }
+        // QualityControlResult
+        public virtual QualityControlResult QualityControlResult { get; set; }
     }
 
     public enum RequireStatus
@@ -64,6 +66,8 @@ namespace VipcoQualityControl.Models.QualityControls
         QcChangeResponse,
         InProcess,
         Complate,
+        QcFail,
         Cancel,
+        Revise,
     }
 }

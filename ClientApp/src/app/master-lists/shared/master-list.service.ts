@@ -37,9 +37,9 @@ export class MasterListService extends BaseRestService<MasterList> {
   }
   // ===================== MasterProjectList by RequireQualityControl ===========================\\
   // action master project list
-  actionRequireQualityControlHasMarkNo(RequireQualityControlId: number): Observable<Array<MasterList>> {
+  actionRequireQualityControlHasMarkNo(RequireQualityControlId: number, SubAction: string = "GetMasterProjectListByRequireQualityControl/"): Observable<Array<MasterList>> {
     const options = { params: new HttpParams().set("key", RequireQualityControlId.toString()) };
-    return this.http.get<Array<MasterList>>(this.baseUrl + "GetMasterProjectListByRequireQualityControl/", options)
+    return this.http.get<Array<MasterList>>(this.baseUrl + SubAction, options)
       .pipe(catchError(this.handleError(this.serviceName + "/get master project list by require quality control model", Array<MasterList>())));
   }
 }

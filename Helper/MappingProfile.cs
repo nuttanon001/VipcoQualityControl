@@ -51,9 +51,20 @@ namespace VipcoQualityControl.Helper
                             o => o.MapFrom(s => s.WorkGroupQualityControl == null ? "-" : s.WorkGroupQualityControl.Name))
                 .ForMember(x => x.LocationQualityControlString,
                             o => o.MapFrom(s => s.LocationQualityControl == null ? "-" : s.LocationQualityControl.Name))
+                .ForMember(x => x.RequireHasMasterProjects, o => o.Ignore())
                 .ForMember(x => x.LocationQualityControl, o => o.Ignore())
                 .ForMember(x => x.WorkGroupQualityControl, o => o.Ignore());
             CreateMap<RequireQualityControlViewModel, RequireQualityControl>();
+            #endregion
+
+            #region RequireHasMasterProject
+
+            CreateMap<RequireHasMasterProject, RequireHasMasterProjectViewModel>()
+                .ForMember(x => x.MarkNoString,
+                            o => o.MapFrom(s => s.MasterProjectList == null ? "No Data" : s.MasterProjectList.MarkNo))
+                .ForMember(x => x.MasterProjectList, o => o.Ignore())
+                .ForMember(x => x.RequireQualityControl,o => o.Ignore());
+
             #endregion
 
             #region User
@@ -94,6 +105,18 @@ namespace VipcoQualityControl.Helper
 
             CreateMap<ProjectCodeDetail, ProjectDetailViewModel>()
                 .ForMember(x => x.ProjectCodeMaster, o => o.Ignore());
+
+            #endregion
+
+            #region QualityControlResult
+
+            CreateMap<QualityControlResult, QualityControlResultViewModel>()
+                .ForMember(x => x.RequireQualityControlNo,
+                            o => o.MapFrom(s => s.RequireQualityControl == null ? "NoData" : s.RequireQualityControl.RequireQualityNo))
+                .ForMember(x => x.WorkGroupQualityControlString,
+                            o => o.MapFrom(s => s.RequireQualityControl == null ? "NoData" : s.RequireQualityControl.WorkGroupQualityControl.Name))
+                .ForMember(x => x.QualityControlStatusString, o => o.MapFrom(s => System.Enum.GetName(typeof(QualityControlStatus), s.QualityControlStatus)))
+                .ForMember(x => x.RequireQualityControl,o => o.Ignore());
 
             #endregion
         }

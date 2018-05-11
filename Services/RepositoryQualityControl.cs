@@ -104,12 +104,14 @@ namespace VipcoQualityControl.Services
         /// </summary>
         /// <remarks>Asynchronous</remarks>
         /// <returns>An ICollection of every object in the database</returns>
-        public async Task<ICollection<TEntity>> GetAllAsync()
+        public async Task<ICollection<TEntity>> GetAllAsync(bool option = false)
         {
             var ListData = new List<TEntity>();
             (await this.Entities.ToListAsync()).ForEach(item =>
             {
-                Context.Entry(item).State = EntityState.Detached;
+                if (!option)
+                    Context.Entry(item).State = EntityState.Detached;
+
                 ListData.Add(item);
             });
             return ListData;
@@ -209,12 +211,14 @@ namespace VipcoQualityControl.Services
         /// <remarks>Asynchronous</remarks>
         /// <param name="match">A linq expression filter to find one or more results</param>
         /// <returns>An ICollection of object which match the expression filter</returns>
-        public async Task<ICollection<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> match)
+        public async Task<ICollection<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> match, bool option = false)
         {
             var ListData = new List<TEntity>();
             (await this.Context.Set<TEntity>().Where(match).ToListAsync()).ForEach(item =>
             {
-                Context.Entry(item).State = EntityState.Detached;
+                if (!option)
+                    Context.Entry(item).State = EntityState.Detached;
+
                 ListData.Add(item);
             });
             return ListData;

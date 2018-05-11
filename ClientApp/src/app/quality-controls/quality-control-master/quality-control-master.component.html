@@ -1,4 +1,4 @@
-<div class="master-container">
+<div class="master-container" *ngIf="!loadReport;else LoadReportBlock">
   <split direction="horizontal" [gutterSize]="7" [useTransition]="true">
     <split-area [size]="35" [visible]="hideleft" [order]="1">
       <div class="child-left-container">
@@ -37,10 +37,12 @@
         </div>
         <!--Right-->
         <div class="right-content">
-          <button type="button" mat-icon-button color="accent" (click)="onDetailEdit()"
-                  [disabled]="ShowEdit" matTooltip="Create new" matTooltipPosition="left">
-            <i class="fa fa-2x fa-plus" aria-hidden="true"></i>
-          </button>
+          <!--
+  <button type="button" mat-icon-button color="accent" (click)="onDetailEdit()"
+          [disabled]="ShowEdit" matTooltip="Create new" matTooltipPosition="left">
+    <i class="fa fa-2x fa-plus" aria-hidden="true"></i>
+  </button>
+  -->
           <button type="button" mat-icon-button color="accent" (click)="onDetailEdit(displayValue)"
                   [disabled]="ShowEdit || DisplayDataNull" matTooltip="Edit" matTooltipPosition="left">
             <i class="fa fa-2x fa-pencil" aria-hidden="true"></i>
@@ -54,8 +56,19 @@
                   [disabled]="!canSave" matTooltip="Save" matTooltipPosition="left">
             <i class="fa fa-2x fa-floppy-o" aria-hidden="true"></i>
           </button>
+          <hr />
+          <button type="button" mat-icon-button color="primary" (click)="onReport(displayValue)"
+                  [disabled]="ShowEdit || DisplayDataNull" matTooltip="Print" matTooltipPosition="left">
+            <i class="fa fa-2x fa-print" aria-hidden="true"></i>
+          </button>
         </div>
       </div>
     </split-area>
   </split>
 </div>
+
+<ng-template #LoadReportBlock>
+  <app-quality-control-report [QualityControlId]="displayValue.QualityControlResultId"
+                           (Back)="onBack()">
+  </app-quality-control-report>
+</ng-template>

@@ -9,6 +9,7 @@ import { BaseViewComponent } from "../../shared/base-view-component";
 import { RequireQualityControlService } from "../shared/require-qc.service";
 import { MasterList } from "../../master-lists/shared/master-list.model";
 import { MasterListService } from "../../master-lists/shared/master-list.service";
+import { fadeInContent } from "@angular/material";
 
 @Component({
   selector: 'app-require-qc-view',
@@ -25,6 +26,8 @@ export class RequireQcViewComponent extends BaseViewComponent<RequireQc> {
   //Parameter
   attachFiles: Array<AttachFile>;
   masterLists: Array<MasterList>;
+  noMasterList: boolean = false;
+  @Input() forFail: boolean = false;
   // load more data
   onLoadMoreData(value: RequireQc) {
     this.attachFiles = new Array;
@@ -32,8 +35,11 @@ export class RequireQcViewComponent extends BaseViewComponent<RequireQc> {
       this.service.getAttachFile(value.RequireQualityControlId)
         .subscribe(dbAttach => this.attachFiles = dbAttach.slice());
 
-      this.serviceMasterList.actionRequireQualityControlHasMarkNo(value.RequireQualityControlId)
-        .subscribe(dbMaster => this.displayValue.MasterLists = dbMaster.slice());
+      if (!this.noMasterList) {
+        this.serviceMasterList.actionRequireQualityControlHasMarkNo(value.RequireQualityControlId,
+          this.forFail ? "GetMasterProjectListByRequireQualityControlForFail" : "GetMasterProjectListByRequireQualityControl" )
+          .subscribe(dbMaster => this.displayValue.MasterLists = dbMaster.slice());
+      }
     }
   }
 }

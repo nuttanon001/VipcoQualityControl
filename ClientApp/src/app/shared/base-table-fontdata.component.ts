@@ -1,6 +1,6 @@
 // Angular Core
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter, AfterViewInit, OnChanges } from "@angular/core";
-import { MatPaginator, MatSort, MatTableDataSource, MatCheckbox } from "@angular/material";
+import { MatPaginator, MatSort, MatTableDataSource, MatCheckbox, MatTable } from "@angular/material";
 import { SelectionModel } from '@angular/cdk/collections';
 // Rxjs
 import { map } from "rxjs/operators/map";
@@ -37,12 +37,15 @@ export class BaseTableFontData<Model> implements OnInit, OnChanges, AfterViewIni
 
   ngOnChanges() {
     this.dataSource = new MatTableDataSource<Model>(this.dataRows);
+    // console.log("ngOnChanges", JSON.stringify(this.dataSource.data));
+    //this.dataSource.connect().subscribe(data => {
+    //  console.log(JSON.stringify(data));
+    //});
   }
 
   // Angular NgOnInit
   ngOnInit() {
     // this.dataSource = new MatTableDataSource<Model>(new Array);
-
     // If the user changes the sort order, reset back to the first page.
     this.selection.onChange.subscribe(selected => {
       if (selected.source.selected[0]) {

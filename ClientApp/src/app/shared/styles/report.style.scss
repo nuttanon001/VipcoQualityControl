@@ -96,34 +96,35 @@
 
 .text-center {
   text-align: center;
+  vertical-align: middle;
 }
 
 .line-btm {
-  border-top: none;
-  border-right: none;
-  border-left: none;
+  /*border-top: none;*/
+  /*border-right: none;*/
+  /*border-left: none;*/
   border-bottom: .5pt solid windowtext;
 }
 
 .line-left {
-  border-top: none;
-  border-right: none;
+  /*border-top: none;*/
+  /*border-right: none;*/
   border-left: .5pt solid windowtext;
-  border-bottom: none;
+  /*border-bottom: none;*/
 }
 
 .line-top {
   border-top: .5pt solid windowtext;
-  border-right: none;
-  border-left: none;
-  border-bottom: none;
+  /*border-right: none;*/
+  /*border-left: none;*/
+  /*border-bottom: none;*/
 }
 
 .line-right {
-  border-top: none;
+  /*border-top: none;*/
   border-right: .5pt solid windowtext;
-  border-left: none;
-  border-bottom: none;
+  /*border-left: none;*/
+  /*border-bottom: none;*/
 }
 
 .line-all {
@@ -150,7 +151,7 @@
   padding-left: 1px;
   // font
   color: windowtext;
-  font-size: 11px;
+  font-size: 12px;
   vertical-align: top;
   text-align: center;
 }

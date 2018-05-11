@@ -137,7 +137,40 @@ namespace VipcoQualityControl.Controllers
                     foreach (var item in HasData)
                     {
                         if (item.MasterProjectList != null)
-                            ListData.Add(this.mapper.Map<MasterProjectList, MasterProjectListViewModel>(item.MasterProjectList));
+                        {
+                            var MapData = this.mapper.Map<MasterProjectList, MasterProjectListViewModel>(item.MasterProjectList);
+                            MapData.Quantity = item.Quantity;
+                            ListData.Add(MapData);
+                        }
+                    }
+                    return new JsonResult(ListData, this.DefaultJsonSettings);
+                }
+            }
+            return BadRequest();
+        }
+
+        // GET:api/MasterProjectList/GetMasterProjectListByRequireQualityControl/5
+        [HttpGet("GetMasterProjectListByRequireQualityControlForFail")]
+        public async Task<IActionResult> GetMasterProjectListByRequireQualityControlForFail(int key)
+        {
+            if (key > 0)
+            {
+                var HasData = await this.repositoryRequireHasMl.GetAllAsQueryable()
+                                        .Where(x => x.RequireQualityControlId == key && 
+                                                    x.RequireQualityControl.RequireStatus == RequireStatus.QcFail)
+                                        .ToListAsync();
+                if (HasData != null)
+                {
+                    var ListData = new List<MasterProjectListViewModel>();
+                    foreach (var item in HasData)
+                    {
+                        if (item.MasterProjectList != null)
+                        {
+                            var MapData = this.mapper.Map<MasterProjectList, MasterProjectListViewModel>(item.MasterProjectList);
+                            MapData.Quantity = item.Quantity;
+                            MapData.FailQuantity = item.Quantity - item.PassQuantity;
+                            ListData.Add(MapData);
+                        }
                     }
                     return new JsonResult(ListData, this.DefaultJsonSettings);
                 }

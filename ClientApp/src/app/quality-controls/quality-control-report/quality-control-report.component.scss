@@ -1,0 +1,18 @@
+@import "../../shared/styles/report.style.scss";
+
+span {
+  width: 100%;
+  border-bottom: 1px dotted #000;
+}
+
+.img-div {
+  width: 100%;
+  text-align: center;
+}
+
+img {
+  top:50%;
+  bottom:50%;
+  width: 135px;
+  margin: 0 auto;
+}

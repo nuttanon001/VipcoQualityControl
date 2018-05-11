@@ -1,3 +1,105 @@
-<p>
-  quality-control-edit works!
-</p>
+<div *ngIf="editValue; else elseBlock">
+  <mat-horizontal-stepper [linear]="true" #stepper="matHorizontalStepper">
+    <mat-step [stepControl]="editValueForm">
+      <ng-template matStepLabel>
+        <strong><b>Quality Control infomation</b></strong>
+      </ng-template>
+      <div class="form-container-column" (click)="openDialog('RequireQualityControl')"
+           style="cursor:pointer;">
+        <i class="text-info">Click here for detail.</i>
+        <div class="row-form" *ngIf="requireQc">
+          <div class="left-content">
+            <mat-form-field>
+              <input matInput placeholder="Require quality control no" readonly
+                     id="RequireQualityNo" [value]="requireQc.RequireQualityNo">
+            </mat-form-field>
+          </div>
+
+          <div class="right-content">
+            <div class="row-form w-75">
+              <div class="left-content">
+                <mat-form-field>
+                  <input matInput [matDatepicker]="RequireDate" placeholder="Require quality control date"
+                         id="RequireDate" [value]="requireQc.RequireDate" readonly>
+                </mat-form-field>
+              </div>
+
+              <div class="right-content">
+                <mat-form-field hintLabel="HH:mm:ss">
+                  <input matInput type="time" placeholder="Require quality control time"
+                         id="RequireQcTimeString" [value]="requireQc.RequireQcTimeString" readonly>
+                </mat-form-field>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <hr class="w-75 my-0" />
+      </div>
+      <form [formGroup]="editValueForm">
+        <div class="form-container-column">
+          <!--Row1-->
+          <div class="row-form">
+            <div class="left-content">
+              <mat-form-field>
+                <input matInput [matDatepicker]="QualityControlResultDate" placeholder="Quality control date"
+                       id="QualityControlResultDate" formControlName="QualityControlResultDate" required>
+                <mat-datepicker-toggle matSuffix [for]="QualityControlResultDate"></mat-datepicker-toggle>
+                <mat-datepicker #QualityControlResultDate></mat-datepicker>
+                <mat-error *ngIf="editValueForm.controls.QualityControlResultDate.hasError('required')">
+                  Date quality control is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="right-content">
+              &nbsp;
+            </div>
+
+          </div>
+          <!--Row2-->
+          <div class="row-form">
+            <div class="left-content">
+              <mat-form-field hintLabel="*Max 250 characters">
+                <textarea matInput placeholder="Quality control description " rows="3"
+                          id="Description" formControlName="Description"></textarea>
+                <mat-hint [align]="end">{{editValueForm.controls.Description.value?.length || 0}}/250</mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="right-content">
+              <mat-form-field>
+                <textarea matInput placeholder="Quality control remark"
+                          maxlength="250" rows="3"
+                          id="Remark" formControlName="Remark"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>
+        <strong><b>Item quality control</b></strong>
+      </ng-template>
+      <div class="form-container-column">
+        <div class="my-0">
+          <button mat-mini-fab color="primary" (click)="onCheckPass()"
+                  matTooltip="All pass">
+            <mat-icon aria-hidden="true">done_all</mat-icon>
+          </button>
+        </div>
+        <div>
+          <app-quality-control-has-markno-table [dataRows]="editValue.QualityHasMasterLists"
+                                                (returnSelected)="onItemMarkNoChange($event)">
+          </app-quality-control-has-markno-table>
+        </div>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>
+
+<ng-template #elseBlock>
+  <mat-progress-bar mode="indeterminate" style="margin-top:50px;"></mat-progress-bar>
+  Waiting... for loading
+</ng-template>

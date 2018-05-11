@@ -73,6 +73,11 @@ import { RegisterComponent } from "./users/register/register.component";
         canActivate: [AuthGuard],
       },
       {
+        path: "qualitycontrol",
+        loadChildren: './quality-controls/quality-control.module#QualityControlModule',
+        canActivate: [AuthGuard],
+      },
+      {
         path: "require-qc",
         loadChildren: './require-qulitycontrols/require-qc.module#RequireQcModule',
         canActivate: [AuthGuard],

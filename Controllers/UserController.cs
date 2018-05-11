@@ -71,18 +71,22 @@ namespace VipcoQualityControl.Controllers
                                                                          m.PassWord.ToLower() == login.PassWord.ToLower());
                 if (HasData != null)
                 {
-                    if (HasData.LevelUser < 3)
-                    {
-                        var DataPermission = await this.repositoryPermission.GetAllAsQueryable()
-                                                    .Where(x => x.UserId == HasData.UserId).FirstOrDefaultAsync();
+                    //For Demo
+                    HasData.LevelUser = 2;
 
-                        if (DataPermission != null)
-                        {
-                            HasData.LevelUser = DataPermission.LevelPermission;
-                        }
-                        else
-                            HasData.LevelUser = 1;
-                    }
+                    //Unmark if in Production
+                    //if (HasData.LevelUser < 3)
+                    //{
+                    //    var DataPermission = await this.repositoryPermission.GetAllAsQueryable()
+                    //                                .Where(x => x.UserId == HasData.UserId).FirstOrDefaultAsync();
+                    //    if (DataPermission != null)
+                    //    {
+                    //        HasData.LevelUser = DataPermission.LevelPermission;
+                    //    }
+                    //    else
+                    //        HasData.LevelUser = 1;
+                    //}
+
                     return new JsonResult(this.mapper.Map<User, UserViewModel>(HasData), this.DefaultJsonSettings);
                 }
                 else

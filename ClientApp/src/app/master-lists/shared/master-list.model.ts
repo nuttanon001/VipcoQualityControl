@@ -17,4 +17,5 @@ export interface MasterList extends BaseModel {
   ProjectCodeDetailId? : number;
   //ViewModel
   ProjectCodeDetailString?: string;
+  FailQuantity?: number;
 }

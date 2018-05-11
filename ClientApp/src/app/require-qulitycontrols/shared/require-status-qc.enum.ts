@@ -4,5 +4,7 @@ export enum RequireStatusQc {
   QcChangeResponse,
   InProcess,
   Complate,
+  QcFail,
   Cancel,
+  Revise,
 }

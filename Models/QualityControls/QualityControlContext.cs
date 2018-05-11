@@ -29,6 +29,7 @@ namespace VipcoQualityControl.Models.QualityControls
                 .HasIndex(l => l.Name).IsUnique();
             modelBuilder.Entity<MasterProjectList>().ToTable("MasterProjectList");
             modelBuilder.Entity<Permission>().ToTable("Permission");
+            modelBuilder.Entity<QualityControlResult>().ToTable("QualityControlResult");
             modelBuilder.Entity<RequireHasAttach>().ToTable("RequireHasAttach");
             modelBuilder.Entity<RequireHasMasterProject>().ToTable("RequireHasMasterProject");
             modelBuilder.Entity<RequireQualityControl>().ToTable("RequireQualityControl");
@@ -45,6 +46,7 @@ namespace VipcoQualityControl.Models.QualityControls
         public DbSet<LocationQualityControl> LocationQualityControls { get; set; }
         public DbSet<MasterProjectList> MasterProjectLists { get; set; }
         public DbSet<Permission> Permissions { get; set; }
+        public DbSet<QualityControlResult> QualityControlResults { get; set; }
         public DbSet<RequireHasAttach> RequireHasAttachs { get; set; }
         public DbSet<RequireHasMasterProject> RequireHasMasterProjects { get; set; }
         public DbSet<RequireQualityControl> RequireQualityControls { get; set; }

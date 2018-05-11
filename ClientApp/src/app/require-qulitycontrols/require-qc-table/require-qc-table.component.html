@@ -57,9 +57,10 @@
     <!-- [ngClass]="{'mat-row-highlight': selectedRow === row}"  -->
     <mat-row *matRowDef="let row; columns: displayedColumns;"
              [ngClass]="{'is-require': row.RequireStatus === 1,
-                'is-wait': row.RequireStatus === 2 || row.RequireStatus === 5,
-                'is-complate' : row.RequireStatus === 3,
-                'is-cancel' : row.RequireStatus === 4}"
+                'is-wait': row.RequireStatus === 2 || row.RequireStatus === 3 || row.RequireStatus === 4,
+                'is-complate' : row.RequireStatus === 5,
+                'is-cancel' : row.RequireStatus === 6 || row.RequireStatus === 7,
+                'is-revise' : row.RequireStatus === 8}"
              (click)="selection.toggle(row)"></mat-row>
   </mat-table>
 
